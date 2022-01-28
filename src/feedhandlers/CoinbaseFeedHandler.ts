@@ -62,10 +62,12 @@ export default class CoinbaseFeedHandler implements OrderBookFeedHandler{
 
             for(const c of changes) {
                 const side = c[0]
+                const price = Number.parseFloat(c[1])
+                const size = Number.parseFloat(c[2])
                 if(side === 'buy') {
-                    bids.push([c[1],c[2]])
+                    bids.push([price,size])
                 } else {
-                    asks.push([c[1],c[2]])
+                    asks.push([price,size])
                 }
             }
 

@@ -1,4 +1,4 @@
-import { CompositeOrderBook } from './CompositeOrderBook'
+import { CompositeOrderBook, Side } from './CompositeOrderBook'
 import { OrderBookEvent } from './feedhandlers'
 import CoinbaseFeedHandler from './feedhandlers/CoinbaseFeedHandler'
 import FTXFeedHandler from './feedhandlers/FTXFeedHandler'
@@ -21,4 +21,6 @@ coinbaseHandler.onEvent((e: OrderBookEvent) => {
 setInterval(() => {
     compositeBook.vacuum()
     compositeBook.print()
+    let execs = compositeBook.newOrder(Side.Buy,10)
+    console.log(execs)
 }, 5000)
