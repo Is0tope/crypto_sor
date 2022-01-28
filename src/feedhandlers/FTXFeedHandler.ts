@@ -1,8 +1,10 @@
 import { OrderBookAction, OrderBookEvent, OrderBookFeedHandler } from '.'
 import ReconnectingWebSocket, { Event } from 'reconnecting-websocket'
 import WebSocket, { MessageEvent } from 'ws';
+import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../symbols'
 
 export default class FTXFeedHandler implements OrderBookFeedHandler{
+    private exchange = 'FTX'
     private url = 'wss://ftx.com/ws/'
     private symbols: string[]
     private ws: ReconnectingWebSocket
@@ -28,7 +30,7 @@ export default class FTXFeedHandler implements OrderBookFeedHandler{
         this.ws.send(JSON.stringify({
             op: 'subscribe',
             channel: 'orderbook',
-            market: symbol}))
+            market: commonToExchangeSymbol(this.exchange,symbol)}))
     }
 
     translateAndPublishEvent(event: MessageEvent) {
@@ -45,7 +47,7 @@ export default class FTXFeedHandler implements OrderBookFeedHandler{
 
         const translatedEvent: OrderBookEvent = {
             action: typ === 'partial' ? OrderBookAction.Partial : OrderBookAction.Update,
-            symbol: market,
+            symbol: exchangeToCommonSymbol(this.exchange,market),
             bids: data.bids,
             asks: data.asks
         }
