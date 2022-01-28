@@ -1,0 +1,21 @@
+{
+  "name": "crypto_sor",
+  "version": "1.0.0",
+  "description": "Simple Smart Order Router for crypto market",
+  "main": "index.js",
+  "repository": "git@github.com:Is0tope/crypto_sor.git",
+  "author": "Kris Machowski <kris.machowski@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^17.0.13",
+    "nodemon": "^2.0.15",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "scripts": {
+    "dev": "nodemon",
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/index.js"
+  }
+}
