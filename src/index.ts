@@ -10,12 +10,12 @@ const compositeBook = new CompositeOrderBook('BTC/USD')
 
 const ftxHandler = new FTXFeedHandler(SYMBOLS)
 ftxHandler.onEvent((e: OrderBookEvent) => {
-    compositeBook.processExternalOrderBookEvent('FTX',e)
+    compositeBook.processExternalOrderBookEvent(ftxHandler.getExchange(),e)
 })
 
 const coinbaseHandler = new CoinbaseFeedHandler(SYMBOLS)
 coinbaseHandler.onEvent((e: OrderBookEvent) => {
-    compositeBook.processExternalOrderBookEvent('Coinbase',e)
+    compositeBook.processExternalOrderBookEvent(coinbaseHandler.getExchange(),e)
 })
 
 setInterval(() => {

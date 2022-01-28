@@ -1,5 +1,6 @@
 export interface OrderBookFeedHandler {
     onEvent: (fn: (event: OrderBookEvent) => void) => void
+    getExchange: () => string
 }
 
 export enum OrderBookAction {

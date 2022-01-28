@@ -26,6 +26,8 @@ export default class CoinbaseFeedHandler implements OrderBookFeedHandler{
         })
     }
 
+    getExchange(): string { return this.exchange }
+
     subscribe(symbols: string[]) {
         const payload = {
             type: 'subscribe',

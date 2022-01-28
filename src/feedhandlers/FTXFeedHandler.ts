@@ -26,6 +26,8 @@ export default class FTXFeedHandler implements OrderBookFeedHandler{
         })
     }
 
+    getExchange(): string { return this.exchange }
+
     subscribe(symbol: string) {
         this.ws.send(JSON.stringify({
             op: 'subscribe',

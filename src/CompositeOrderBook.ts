@@ -84,8 +84,8 @@ export class CompositeOrderBook {
         const action = event.action
         const symbol = event.symbol
         if(action === OrderBookAction.Partial) {
-            // TODO: Clear out all levels for this exchange
-            // this.clearExchange(exchange)
+            // Clear out all levels for this exchange
+            this.vacuum((l: PriceLevel) => l.exchange === exchange)
         }
         for(const b of event.bids) {
             this.updateLevel(exchange, Side.Buy, b[0], b[1])
@@ -95,16 +95,20 @@ export class CompositeOrderBook {
         }
     }
 
-    vacuum() {
+    vacuum(removeFilter?: ((l: PriceLevel) => boolean)) {
         // Due to the priority queue having no easy removal, this quite inefficient method is required
         // to periodically clean up any empty price levels
+        if(removeFilter === undefined) {
+            removeFilter = (l: PriceLevel) => l.size === 0 
+        }
+
         this.levelLookup.clear()
 
-        const bids = (<PriceLevel[]>this.bids.toArray()).filter((x: PriceLevel) => x.size !== 0)
+        const bids = (<PriceLevel[]>this.bids.toArray()).filter((x: PriceLevel) => !removeFilter!(x))
         this.bids.clear()
         bids.forEach((b: PriceLevel) => this.updateLevel(b.exchange,b.side,b.price,b.size))
 
-        const asks = (<PriceLevel[]>this.asks.toArray()).filter((x: PriceLevel) => x.size !== 0)
+        const asks = (<PriceLevel[]>this.asks.toArray()).filter((x: PriceLevel) => !removeFilter!(x))
         this.asks.clear()
         asks.forEach((a: PriceLevel) => this.updateLevel(a.exchange,a.side,a.price,a.size))
     }
