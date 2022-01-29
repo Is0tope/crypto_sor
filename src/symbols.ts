@@ -3,7 +3,7 @@ export const MARKET_MAPPING: any = {
         'BTC/USD': 'BTC/USD',
         'ETH/USD': 'ETH/USD',
         'BNB/USD': 'BNB/USD',
-        'ADA/USD': 'AFA/USD',
+        'ADA/USD': 'ADA/USD',
         'XRP/USD': 'XRP/USD',
         'LUNA/USD': 'LUNA/USD',
         'DOGE/USD': 'DOGE/USD',
@@ -12,11 +12,30 @@ export const MARKET_MAPPING: any = {
         'BTC/USD': 'BTC-USD',
         'ETH/USD': 'ETH-USD',
         'BNB/USD': 'BNB-USD',
-        'ADA/USD': 'AFA-USD',
+        'ADA/USD': 'ADA-USD',
         'XRP/USD': 'XRP-USD',
         'LUNA/USD': 'LUNA-USD',
         'DOGE/USD': 'DOGE-USD',
     },
+    // BUSD is used as USD equivalent
+    'Binance': {
+        'BTC/USD': 'BTCBUSD',
+        'ETH/USD': 'ETHBUSD',
+        'BNB/USD': 'BNBBUSD',
+        'ADA/USD': 'ADABUSD',
+        'XRP/USD': 'XRPBUSD',
+        'LUNA/USD': 'LUNABUSD',
+        'DOGE/USD': 'DOGEBUSD',
+    },
+    'Kraken': {
+        'BTC/USD': 'XBT/USD',
+        'ETH/USD': 'ETH/USD',
+        'BNB/USD': 'BNB/USD',
+        'ADA/USD': 'ADA/USD',
+        'XRP/USD': 'XRP/USD',
+        'LUNA/USD': 'LUNA/USD',
+        'DOGE/USD': 'DOGE/USD',
+    }
 }
 
 export const INVERSE_MARKET_MAPPING: any = (() => {

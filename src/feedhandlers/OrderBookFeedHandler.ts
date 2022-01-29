@@ -16,7 +16,8 @@ export class OrderBookFeedHandler implements BaseOrderBookFeedHandler{
         this.exchange = exchange
         this.eventHandlers = []
         this.ws = new ReconnectingWebSocket(wsUrl, [],  {
-            WebSocket: WebSocket
+            WebSocket: WebSocket,
+            debug: false
         })
 
         this.ws.onopen = (e: Event) => this.onOpen(e)

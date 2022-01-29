@@ -24,7 +24,8 @@ export default class FTXFeedHandler extends OrderBookFeedHandler{
         this.ws.send(JSON.stringify({
             op: 'subscribe',
             channel: 'orderbook',
-            market: commonToExchangeSymbol(this.getExchange(),symbol)}))
+            market: commonToExchangeSymbol(this.getExchange(),symbol)
+        }))
     }
 
     translateAndPublishEvent(event: MessageEvent) {
