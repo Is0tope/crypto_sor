@@ -49,9 +49,10 @@ export default class CoinbaseFeedHandler implements OrderBookFeedHandler{
             const translatedEvent: OrderBookEvent = {
                 action: OrderBookAction.Partial,
                 symbol: market,
-                bids: msg.bids,
-                asks: msg.asks
+                bids: msg.bids.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]),
+                asks: msg.asks.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]),
             }
+            console.log('partial',translatedEvent)
             this.eventHandlers.map((fn) => fn(translatedEvent))
             return
         }

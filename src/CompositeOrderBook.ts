@@ -110,11 +110,10 @@ export class CompositeOrderBook {
     newOrder(side: Side, orderQty: number): Execution[] {
         const queue: PriceLevel[] = side === Side.Buy ? <PriceLevel[]>this.asks.toArray() : <PriceLevel[]>this.bids.toArray()
         let cumQty = 0
-        let pointer = 0
         const executions: Execution[] = []
-        while(cumQty < orderQty && pointer < queue.length) {
-            const level = queue[pointer]
+        for(const level of queue) {
             if(level.size === 0) continue
+            if(cumQty === orderQty) break
             const remaining = orderQty - cumQty
             const lastQty = Math.min(remaining,level.size)
             executions.push({
@@ -124,13 +123,12 @@ export class CompositeOrderBook {
                 lastQty: lastQty
             })
             cumQty += lastQty
-            pointer++
         }
         return executions
     }
 
     print() {
-        for(const o of this.asks.toArray().reverse().slice(0,10)){
+        for(const o of this.asks.toArray().slice(0,10).reverse()){
             console.log(o)
         }
         console.log('-----------')
