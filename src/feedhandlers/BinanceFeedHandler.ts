@@ -66,7 +66,7 @@ export default class BinanceFeedHandler extends OrderBookFeedHandler{
                 const msgs = this.getMessagesAfterUpdateId(s,lastUpdateId)
                 if(msgs.length > 0) {
                     console.log(`Replaying ${msgs.length} messages`)
-                    for(const m in msgs) {
+                    for(const m of msgs) {
                         this.publish(this.processUpdateMessage(m))
                     }
                 }

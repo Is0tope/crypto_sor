@@ -1,7 +1,7 @@
 import { OrderBookAction, OrderBookEvent, PriceLevel } from '.'
 import ReconnectingWebSocket, { Event } from 'reconnecting-websocket'
 import WebSocket, { MessageEvent } from 'ws';
-import { commonToExchangeSymbol } from '../symbols'
+import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../symbols'
 import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 export default class CoinbaseFeedHandler extends OrderBookFeedHandler{
     private symbols: string[]
@@ -34,7 +34,7 @@ export default class CoinbaseFeedHandler extends OrderBookFeedHandler{
         const msg = JSON.parse(event.data as string)
 
         const typ = msg.type
-        const market = msg.product_id
+        const market = exchangeToCommonSymbol(this.getExchange(),msg.product_id)
 
         if(typ === 'snapshot') {
             const translatedEvent: OrderBookEvent = {
