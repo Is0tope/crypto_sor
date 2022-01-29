@@ -29,6 +29,7 @@
   "dependencies": {
     "@datastructures-js/priority-queue": "^5.3.0",
     "axios": "^0.25.0",
+    "fastify": "^3.27.0",
     "reconnecting-websocket": "^4.4.0",
     "ws": "^8.4.2"
   }
