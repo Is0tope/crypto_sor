@@ -1,4 +1,5 @@
-import { CompositeOrderBook, Side } from './CompositeOrderBook'
+import { Side } from './common'
+import { CompositeOrderBook } from './CompositeOrderBook'
 import { OrderBookEvent } from './feedhandlers'
 import CoinbaseFeedHandler from './feedhandlers/CoinbaseFeedHandler'
 import FTXFeedHandler from './feedhandlers/FTXFeedHandler'

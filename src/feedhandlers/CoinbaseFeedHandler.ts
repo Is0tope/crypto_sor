@@ -1,37 +1,28 @@
-import { OrderBookAction, OrderBookEvent, OrderBookFeedHandler, PriceLevel } from '.'
+import { OrderBookAction, OrderBookEvent, PriceLevel } from '.'
 import ReconnectingWebSocket, { Event } from 'reconnecting-websocket'
 import WebSocket, { MessageEvent } from 'ws';
 import { commonToExchangeSymbol } from '../symbols'
-
-export default class CoinbaseFeedHandler implements OrderBookFeedHandler{
-    private exchange = 'Coinbase'
-    private url = 'wss://ws-feed.exchange.coinbase.com'
+import { OrderBookFeedHandler } from './OrderBookFeedHandler'
+export default class CoinbaseFeedHandler extends OrderBookFeedHandler{
     private symbols: string[]
-    private ws: ReconnectingWebSocket
-    private eventHandlers: ((event: OrderBookEvent) => void)[]
 
     constructor(symbols: string[]) {
+        super('Coinbase','wss://ws-feed.exchange.coinbase.com')
         this.symbols = symbols
-        this.eventHandlers = []
-        this.ws = new ReconnectingWebSocket(this.url, [],  {
-            WebSocket: WebSocket
-        })
-
-        this.ws.onopen = ((_event: Event) => {
-            this.subscribe(this.symbols)
-        })
-
-        this.ws.onmessage = ((event: MessageEvent) => {
-            this.translateAndPublishEvent(event)
-        })
     }
 
-    getExchange(): string { return this.exchange }
+    onOpen(event: Event): void {
+        this.subscribe(this.symbols)
+    }
+
+    onMessage(event: MessageEvent): void {
+        this.translateAndPublishEvent(event)
+    }
 
     subscribe(symbols: string[]) {
         const payload = {
             type: 'subscribe',
-            "product_ids": this.symbols.map((x) => commonToExchangeSymbol(this.exchange,x)),
+            "product_ids": symbols.map((x) => commonToExchangeSymbol(this.getExchange(),x)),
             "channels": [
                 "level2"
             ]
@@ -52,8 +43,7 @@ export default class CoinbaseFeedHandler implements OrderBookFeedHandler{
                 bids: msg.bids.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]),
                 asks: msg.asks.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]),
             }
-            console.log('partial',translatedEvent)
-            this.eventHandlers.map((fn) => fn(translatedEvent))
+            this.publish(translatedEvent)
             return
         }
         if(typ === 'l2update') {
@@ -78,13 +68,8 @@ export default class CoinbaseFeedHandler implements OrderBookFeedHandler{
                 bids: bids,
                 asks: asks
             }
-            this.eventHandlers.map((fn) => fn(translatedEvent))
+            this.publish(translatedEvent)
             return
         }
     }
-
-    onEvent(fn: (event: OrderBookEvent) => void): void {
-        this.eventHandlers.push(fn)
-    }
-
 }

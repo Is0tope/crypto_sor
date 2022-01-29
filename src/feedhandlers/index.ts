@@ -1,16 +1,6 @@
-export interface OrderBookFeedHandler {
-    onEvent: (fn: (event: OrderBookEvent) => void) => void
-    getExchange: () => string
-}
-
 export enum OrderBookAction {
     Partial,
     Update,
-}
-
-export enum Side {
-    Buy,
-    Sell
 }
 
 export type PriceLevel = [number,number]

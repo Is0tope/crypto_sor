@@ -1,23 +1,31 @@
 import { OrderBookAction, OrderBookEvent } from '.'
-import ReconnectingWebSocket, { Event } from 'reconnecting-websocket'
+import { Event } from 'reconnecting-websocket'
 import WebSocket, { MessageEvent } from 'ws';
 import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../symbols'
 import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 
-export default class FTXFeedHandler extends OrderBookFeedHandler{
+export default class BinanceFeedHandler extends OrderBookFeedHandler{
     private symbols: string[]
 
     constructor(symbols: string[]) {
-        super('FTX','wss://ftx.com/ws/')
+        super('Binance','wss://dex.binance.org/api/ws')
         this.symbols = symbols
+
+        this.ws.onopen = ((_event: Event) => {
+            this.symbols.map((x) => this.subscribe(x))
+        })
+
+        this.ws.onmessage = ((event: MessageEvent) => {
+            this.translateAndPublishEvent(event)
+        })
     }
 
-    onOpen(event: Event) {
-        this.symbols.map((x) => this.subscribe(x))
+    onOpen(event: Event): void {
+        
     }
 
-    onMessage(event: MessageEvent) {
-        this.translateAndPublishEvent(event)
+    onMessage(event: WebSocket.MessageEvent): void {
+        
     }
 
     subscribe(symbol: string) {
@@ -45,6 +53,5 @@ export default class FTXFeedHandler extends OrderBookFeedHandler{
             bids: data.bids,
             asks: data.asks
         }
-        this.publish(translatedEvent)
     }
 }

@@ -1,4 +1,5 @@
-import { CompositeOrderBook, PriceLevel, Side } from '../CompositeOrderBook'
+import { Side } from '../common'
+import { CompositeOrderBook, PriceLevel } from '../CompositeOrderBook'
 
 test('adding price levels for same exchange at same price creates one level and updates it', () => {
     const orderbook = new CompositeOrderBook('BTC/USD')

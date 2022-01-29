@@ -1,10 +1,6 @@
 import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
+import { Side } from './common'
 import { OrderBookAction, OrderBookEvent } from './feedhandlers'
-
-export enum Side {
-    Buy,
-    Sell
-}
 
 export interface PriceLevel {
     exchange: string
