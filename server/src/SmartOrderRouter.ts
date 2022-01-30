@@ -1,5 +1,5 @@
 import { Side } from './common'
-import { CompositeOrderBook, Execution } from './CompositeOrderBook'
+import { CompositeOrderBook, Execution, PriceLevel } from './CompositeOrderBook'
 import { OrderBookEvent } from './feedhandlers'
 import BinanceFeedHandler from './feedhandlers/BinanceFeedHandler'
 import CoinbaseFeedHandler from './feedhandlers/CoinbaseFeedHandler'
@@ -55,5 +55,13 @@ export default class SmartOrderRouter {
 
     vacuum() {
         this.orderbooks.forEach((book: CompositeOrderBook) => book.vacuum())
+    }
+
+    getBids(symbol: string): PriceLevel[] {
+        return this.orderbooks.get(symbol)!.getBids()
+    }
+
+    getAsks(symbol: string): PriceLevel[] {
+        return this.orderbooks.get(symbol)!.getAsks()
     }
 }
