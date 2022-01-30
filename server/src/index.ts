@@ -1,20 +1,22 @@
-import { Side } from './common'
-import { CompositeOrderBook } from './CompositeOrderBook'
-import { OrderBookEvent } from './feedhandlers'
-import BinanceFeedHandler from './feedhandlers/BinanceFeedHandler'
-import CoinbaseFeedHandler from './feedhandlers/CoinbaseFeedHandler'
-import FTXFeedHandler from './feedhandlers/FTXFeedHandler'
-import KrakenFeedHandler from './feedhandlers/KrakenFeedHandler'
-import SmartOrderRouter from './SmartOrderRouter'
-import { INVERSE_MARKET_MAPPING } from './symbols'
+import fastify from 'fastify'
+import routes from './routes'
+import { SOR } from './app'
 
-const SYMBOLS = ['BTC/USD']
+const PORT = process.env.PORT || 8080
+const VACUUM_INTERVAL = 10_000
 
-const sor = new SmartOrderRouter(SYMBOLS)
+const server = fastify()
+
+routes.forEach((r: any) => server.route(r))
+
+server.listen(PORT, (err, address) => {
+    if (err) {
+      console.error(err)
+      process.exit(1)
+    }
+    console.log(`Server listening at ${address}`)
+})
 
 setInterval(() => {
-    sor.vacuum()
-    // compositeBook.print()
-    let execs = sor.newOrder('BTC/USD',Side.Buy,10)
-    console.log(execs)
-}, 5000)
+    SOR.vacuum()
+}, VACUUM_INTERVAL)

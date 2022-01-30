@@ -51,6 +51,10 @@ export const INVERSE_MARKET_MAPPING: any = (() => {
     return ret
 })()
 
+export const EXCHANGES = Object.keys(MARKET_MAPPING)
+
+export const SYMBOLS = [...new Set(EXCHANGES.map((x: string) => Object.keys(MARKET_MAPPING[x])).flat())]
+
 export function commonToExchangeSymbol(exchange: string, sym: string): string {
     return MARKET_MAPPING[exchange][sym]
 }
