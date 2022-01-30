@@ -137,11 +137,19 @@ export class CompositeOrderBook {
         console.log('')
     }
 
-    getBids(): PriceLevel[] {
-        return <PriceLevel[]>this.bids.toArray()
+    getBids(removeEmpty?: boolean): PriceLevel[] {
+        let res = <PriceLevel[]>this.bids.toArray()
+        if(removeEmpty) {
+            res = res.filter((l: PriceLevel) => l.size !== 0)
+        }
+        return res
     }
 
-    getAsks(): PriceLevel[] {
-        return <PriceLevel[]>this.asks.toArray()
+    getAsks(removeEmpty?: boolean): PriceLevel[] {
+        let res = <PriceLevel[]>this.asks.toArray()
+        if(removeEmpty) {
+            res = res.filter((l: PriceLevel) => l.size !== 0)
+        }
+        return res
     }
 }

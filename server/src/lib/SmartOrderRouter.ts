@@ -58,10 +58,10 @@ export default class SmartOrderRouter {
     }
 
     getBids(symbol: string): PriceLevel[] {
-        return this.orderbooks.get(symbol)!.getBids()
+        return this.orderbooks.get(symbol)!.getBids(true)
     }
 
     getAsks(symbol: string): PriceLevel[] {
-        return this.orderbooks.get(symbol)!.getAsks()
+        return this.orderbooks.get(symbol)!.getAsks(true)
     }
 }

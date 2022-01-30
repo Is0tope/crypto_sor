@@ -1,6 +1,7 @@
 import fastify from 'fastify'
 import routes from './routes'
 import { SOR } from './app'
+import cors from 'fastify-cors'
 
 const PORT = process.env.PORT || 8080
 const VACUUM_INTERVAL = 10_000
@@ -15,6 +16,8 @@ const server = fastify({
         }
     }
 })
+
+server.register(cors)
 
 routes.forEach((r: any) => server.route(r))
 
