@@ -1,4 +1,4 @@
-import SmartOrderRouter from './SmartOrderRouter'
+import SmartOrderRouter from './lib/SmartOrderRouter'
 
 const syms = ['BTC/USD']
 

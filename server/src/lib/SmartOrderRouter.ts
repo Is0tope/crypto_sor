@@ -1,10 +1,10 @@
 import { Side } from './common'
 import { CompositeOrderBook, Execution, PriceLevel } from './CompositeOrderBook'
-import { OrderBookEvent } from './feedhandlers'
-import BinanceFeedHandler from './feedhandlers/BinanceFeedHandler'
-import CoinbaseFeedHandler from './feedhandlers/CoinbaseFeedHandler'
-import FTXFeedHandler from './feedhandlers/FTXFeedHandler'
-import KrakenFeedHandler from './feedhandlers/KrakenFeedHandler'
+import { OrderBookEvent } from '../feedhandlers'
+import BinanceFeedHandler from '../feedhandlers/BinanceFeedHandler'
+import CoinbaseFeedHandler from '../feedhandlers/CoinbaseFeedHandler'
+import FTXFeedHandler from '../feedhandlers/FTXFeedHandler'
+import KrakenFeedHandler from '../feedhandlers/KrakenFeedHandler'
 
 export default class SmartOrderRouter {
     private symbols: string[]

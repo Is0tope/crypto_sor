@@ -1,6 +1,8 @@
 import ReconnectingWebSocket, { Event } from 'reconnecting-websocket'
+import { CloseEvent } from 'reconnecting-websocket/dist/events'
 import WebSocket, { MessageEvent } from 'ws'
 import { OrderBookEvent } from '.'
+import logger from '../logger'
 
 export interface BaseOrderBookFeedHandler {
     onOpen: (event: Event) => void
@@ -20,9 +22,16 @@ export class OrderBookFeedHandler implements BaseOrderBookFeedHandler{
             debug: false
         })
 
-        this.ws.onopen = (e: Event) => this.onOpen(e)
+        this.ws.onopen = (e: Event) => {
+            logger.info(`WebSocket connection for ${this.exchange} opened`)
+            this.onOpen(e)
+        }
 
         this.ws.onmessage = (e: MessageEvent) => this.onMessage(e)
+
+        this.ws.onclose = (e: CloseEvent) => {
+            logger.warn(`WebSocket connection for ${this.exchange} closed`)
+        }
     }
     
     // @override
@@ -45,5 +54,10 @@ export class OrderBookFeedHandler implements BaseOrderBookFeedHandler{
 
     publish(event: OrderBookEvent) {
         this.eventHandlers.map((fn) => fn(event))
+    }
+
+    reconnect() {
+        logger.warn(`Reconnect called for ${this.exchange} feed handler`)
+        this.ws.reconnect()
     }
 }

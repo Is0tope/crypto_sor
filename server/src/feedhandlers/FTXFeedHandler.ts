@@ -1,7 +1,7 @@
 import { OrderBookAction, OrderBookEvent } from '.'
 import ReconnectingWebSocket, { Event } from 'reconnecting-websocket'
 import WebSocket, { MessageEvent } from 'ws';
-import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../symbols'
+import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../lib/symbols'
 import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 
 export default class FTXFeedHandler extends OrderBookFeedHandler{

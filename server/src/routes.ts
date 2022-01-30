@@ -1,7 +1,7 @@
-import { EXCHANGES, MARKET_MAPPING, SYMBOLS } from './symbols'
+import { EXCHANGES, MARKET_MAPPING, SYMBOLS } from './lib/symbols'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SOR } from './app'
-import { Side } from './common'
+import { Side } from './lib/common'
 
 const symbolsHandler = async (req: FastifyRequest, res: FastifyReply) => {
     return {

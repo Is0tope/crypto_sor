@@ -1,6 +1,7 @@
 import { MaxPriorityQueue } from '@datastructures-js/priority-queue';
 import { Side } from './common'
-import { OrderBookAction, OrderBookEvent } from './feedhandlers'
+import { OrderBookAction, OrderBookEvent } from '../feedhandlers'
+import logger from '../logger'
 
 export interface PriceLevel {
     exchange: string
@@ -88,6 +89,8 @@ export class CompositeOrderBook {
     vacuum(removeFilter?: ((l: PriceLevel) => boolean)) {
         // Due to the priority queue having no easy removal, this quite inefficient method is required
         // to periodically clean up any empty price levels
+        logger.info(`Vacuuming book for ${this.symbol}`)
+        
         if(removeFilter === undefined) {
             removeFilter = (l: PriceLevel) => l.size === 0 
         }

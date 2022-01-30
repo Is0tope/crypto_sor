@@ -1,9 +1,10 @@
 import { OrderBookAction, OrderBookEvent } from '.'
 import { Event } from 'reconnecting-websocket'
 import { MessageEvent } from 'ws';
-import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../symbols'
+import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../lib/symbols'
 import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 import axios from 'axios'
+import logger from '../logger'
 
 export default class BinanceFeedHandler extends OrderBookFeedHandler{
     private symbols: string[]
@@ -62,10 +63,10 @@ export default class BinanceFeedHandler extends OrderBookFeedHandler{
                 }
                 this.publish(partial)
                 const lastUpdateId = data.lastUpdateId
-                console.log(`Got SOW for ${s} with lastUpdateId=${lastUpdateId}`)
+                logger.info(`[${this.getExchange()}] Got SOW for ${s} with lastUpdateId=${lastUpdateId}`)
                 const msgs = this.getMessagesAfterUpdateId(s,lastUpdateId)
                 if(msgs.length > 0) {
-                    console.log(`Replaying ${msgs.length} messages`)
+                    console.log(`[${this.getExchange()}] Replaying ${msgs.length} messages`)
                     for(const m of msgs) {
                         this.publish(this.processUpdateMessage(m))
                     }
