@@ -1,5 +1,4 @@
 import SmartOrderRouter from './lib/SmartOrderRouter'
+import { SYMBOLS } from './lib/symbols'
 
-const syms = ['BTC/USD']
-
-export const SOR = new SmartOrderRouter(syms)
+export const SOR = new SmartOrderRouter(SYMBOLS)

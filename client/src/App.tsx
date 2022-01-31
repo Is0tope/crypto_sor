@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Button from 'react-bootstrap/Button';
@@ -7,8 +7,42 @@ import Row from 'react-bootstrap/esm/Row'
 import Col from 'react-bootstrap/esm/Col'
 import Card from 'react-bootstrap/esm/Card'
 import OrderBook from './components/OrderBook'
+import { getSymbolInfo } from './api'
+import { SymbolSelect } from './components/SymbolSelect'
+import { ExchangeSelect } from './components/ExchangeSelect'
 
 function App() {
+  const [activeSymbol,setActiveSymbol] = useState('')
+  const [symbols,setSymbols] = useState([])
+
+  const [exchanges,setExchanges] = useState([] as string[])
+  const [activeExchanges,setActiveExchanges] = useState([] as string[])
+
+  useEffect(() => {
+    const fn = async () => {
+      const data = await getSymbolInfo()
+      setSymbols(data.symbols)
+      setExchanges(data.exchanges)
+      setActiveExchanges(data.exchanges)
+      if(data.symbols.length > 0) {
+        setActiveSymbol(data.symbols[0])
+      }
+    }
+    fn()
+  },[])
+
+  const toggleExchange = (ex: string) => {
+    if(activeExchanges.includes(ex)) {
+        setActiveExchanges(activeExchanges.filter((x: string) => x !== ex))
+    } else {
+        setActiveExchanges(activeExchanges.concat(ex))
+    }
+  }
+
+  const onActiveSymbolChange = (s: string) => {
+    setActiveSymbol(s)
+  }
+
   return (
     <div className="App">
       {/* <div className="body-header"></div>
@@ -23,7 +57,25 @@ function App() {
         <Row>
           <Col className="selector-col">
           <Card>
-            <Card.Body>This is some text within a card body.</Card.Body>
+            <Card.Body>
+              <Row className="row-cols-auto">
+                <Col style={{fontSize: '20pt'}}>
+                  Symbol
+                </Col>
+                <Col>
+                  <SymbolSelect symbols={symbols} activeSymbol={activeSymbol} onSymbolChange={onActiveSymbolChange}/>
+                </Col>
+                <Col style={{fontSize: '20pt'}}>
+                  Exchange Filter
+                </Col>
+                <Col>
+                  <ExchangeSelect 
+                    exchanges={exchanges}
+                    activeExchanges={activeExchanges}
+                    onExchangeClicked={toggleExchange}/>
+                </Col>
+              </Row>
+            </Card.Body>
           </Card>
           </Col>
         </Row>
@@ -32,7 +84,7 @@ function App() {
           <Col className="book-col">
           <Card>
             <Card.Body>
-              <OrderBook />
+              <OrderBook symbol={activeSymbol}/>
             </Card.Body>
           </Card>
           </Col>

@@ -26,7 +26,8 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
             event: 'subscribe',
             pair: this.symbols.map((x: string) => commonToExchangeSymbol(this.getExchange(),x)),
             subscription: {
-              name: 'book'
+              name: 'book',
+              depth: 100
             }
           }
         this.ws.send(JSON.stringify(payload))
@@ -37,11 +38,11 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
         const msg = JSON.parse(event.data as string)
         if(!Array.isArray(msg)) return
 
-        const symbol = exchangeToCommonSymbol(this.getExchange(),msg[3])
-        const data = msg[1]
+        const symbol = exchangeToCommonSymbol(this.getExchange(),msg[msg.length-1])
 
         // First message is the State Of World, others are updates
         if(this.counter === 0 ) {
+            const data = msg[1]
             const bids = data.bs.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])])
             const asks = data.as.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])])
             const translatedEvent: OrderBookEvent = {
@@ -52,15 +53,18 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
             }
             this.publish(translatedEvent)
         } else {
-            const bids = 'b' in data ? data.b.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]) : []
-            const asks = 'a' in data ? data.a.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]) : []
-            const translatedEvent: OrderBookEvent = {
-                action: OrderBookAction.Update,
-                symbol: symbol,
-                bids: bids,
-                asks: asks
+            const dataList = msg.slice(1,-2)
+            for(const data of dataList){
+                const bids = 'b' in data ? data.b.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]) : []
+                const asks = 'a' in data ? data.a.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]) : []
+                const translatedEvent: OrderBookEvent = {
+                    action: OrderBookAction.Update,
+                    symbol: symbol,
+                    bids: bids,
+                    asks: asks
+                }
+                this.publish(translatedEvent)
             }
-            this.publish(translatedEvent)
         }
 
         this.counter++

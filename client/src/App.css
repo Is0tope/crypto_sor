@@ -35,3 +35,10 @@ body {
   margin-top: 20px !important;
 
 }
+
+.size-bar {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}

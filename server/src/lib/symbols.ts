@@ -34,7 +34,7 @@ export const MARKET_MAPPING: any = {
         'ADA/USD': 'ADA/USD',
         'XRP/USD': 'XRP/USD',
         'LUNA/USD': 'LUNA/USD',
-        'DOGE/USD': 'DOGE/USD',
+        'DOGE/USD': 'XDG/USD',
     }
 }
 
