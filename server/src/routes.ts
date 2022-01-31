@@ -1,22 +1,33 @@
-import { EXCHANGES, MARKET_MAPPING, SYMBOLS } from './lib/symbols'
+import { EXCHANGES, INSTRUMENTS, SYMBOLS } from './lib/symbols'
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { SOR } from './app'
 import { Side } from './lib/common'
+import { PriceLevel } from './lib/CompositeOrderBook'
 
 const symbolsHandler = async (req: FastifyRequest, res: FastifyReply) => {
     return {
         'exchanges': EXCHANGES,
         'symbols': SYMBOLS,
-        'mapping': MARKET_MAPPING
+        'instruments': INSTRUMENTS
     }
 }
 
 const bookHandler = async (req: FastifyRequest, res: FastifyReply) => {
     const symbol = (req.params as any)['*'] as string
     const levels = (req.query as any).levels || 10
+    const exchanges = (req.query as any).exchanges as string
 
-    const bids = SOR.getBids(symbol).slice(0,levels)
-    const asks = SOR.getAsks(symbol).slice(0,levels)
+    let bids = SOR.getBids(symbol)
+    let asks = SOR.getAsks(symbol)
+
+    if(exchanges !== undefined) {
+        const includeExchanges = exchanges.split(',')
+        bids = bids.filter((l: PriceLevel) => includeExchanges.includes(l.exchange))
+        asks = asks.filter((l: PriceLevel) => includeExchanges.includes(l.exchange))
+    }
+
+    bids = bids.slice(0,levels)
+    asks = asks.slice(0,levels)
 
     res.code(200)
         .header('Content-Type', 'application/json')
@@ -53,7 +64,12 @@ export default [
                 '*': { type: 'string', enum: SYMBOLS}
             },
             query: {
-                levels: { type: 'integer', exclusiveMinimum: 0, maximum: 50 }
+                levels: { type: 'integer', exclusiveMinimum: 0, maximum: 50 },
+                // This should be type='array' however I cannot for 
+                // the life of me figure out what the array format is
+                exchanges: { 
+                    type: 'string'
+                }
             }
         },
         handler: bookHandler

@@ -66,7 +66,7 @@ export default class BinanceFeedHandler extends OrderBookFeedHandler{
                 logger.info(`[${this.getExchange()}] Got SOW for ${s} with lastUpdateId=${lastUpdateId}`)
                 const msgs = this.getMessagesAfterUpdateId(s,lastUpdateId)
                 if(msgs.length > 0) {
-                    console.log(`[${this.getExchange()}] Replaying ${msgs.length} messages`)
+                    logger.info(`[${this.getExchange()}] Replaying ${msgs.length} messages`)
                     for(const m of msgs) {
                         this.publish(this.processUpdateMessage(m))
                     }

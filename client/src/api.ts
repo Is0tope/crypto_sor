@@ -7,8 +7,12 @@ export const getSymbolInfo = async () => {
     return res.data
 }
 
-export const getBook = async (symbol: string) => {
-    const res = await axios.get(`${BASE_URL}/api/book/${symbol}`)
+export const getBook = async (symbol: string, exchanges?: string[]) => {
+    let url = `${BASE_URL}/api/book/${symbol}`
+    if(exchanges) {
+        url += `?exchanges=${exchanges}`
+    }
+    const res = await axios.get(url)
     return res.data
 }
 

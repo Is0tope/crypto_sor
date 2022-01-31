@@ -1,24 +1,48 @@
-import axios from 'axios'
 import { useEffect, useState } from 'react'
-import Table from 'react-bootstrap/esm/Table'
 import { getBook } from '../api'
 import BookSide from './BookSide'
 
 const BOOK_UPDATE_PERIOD = 1_000
 
+const addCumulativeSizes = (bids: any[], asks: any[]) => {
+    // Calculate running sums in place
+    let sumBids = 0
+    for(const l of bids) {
+        sumBids += l.size
+        l.runningSize = sumBids
+    }
+    let sumAsks = 0
+    for(const l of asks) {
+        sumAsks += l.size
+        l.runningSize = sumAsks
+    }
+    const maxSize = Math.max(sumBids,sumAsks)
+    bids.forEach((l: any) => l.maximumSize = maxSize)
+    asks.forEach((l: any) => l.maximumSize = maxSize)
+}
+
 export default function OrderBook(props: any) {
     const symbol = props.symbol
+    const exchanges = props.exchanges
+    let config = {}
+    if(Object.keys(props.instruments).length !== 0) {
+        const precisions = props.instruments[symbol] || {}
+        config = {
+            basePrecision: precisions.basePrecision || 1,
+            quotePrecision: precisions.quotePrecision || 1
+        }
+    }
 
     const [bids,setBids] = useState([])
     const [asks,setAsks] = useState([])
 
     const updateBook = async () => {
-        console.log('Updating books')
         try {
-            const {bids,asks} = await getBook(symbol)
-            console.log(bids)
+            const {bids,asks} = await getBook(symbol,exchanges)
+            addCumulativeSizes(bids,asks)
             setBids(bids)
             setAsks(asks)
+            console.log(bids,asks)
         } catch(e) {
             console.error(e)
             setBids([])
@@ -35,15 +59,15 @@ export default function OrderBook(props: any) {
         updateBook()
         const timer = setInterval(updateBook, BOOK_UPDATE_PERIOD)
         return () => clearInterval(timer)
-    },[symbol])
+    },[symbol,exchanges])
 
     return (
         <div className="d-flex flex-row">
             <div style={{ width: '50%'}}>
-                <BookSide symbol={symbol} data={bids} side="bid" />
+                <BookSide symbol={symbol} data={bids} side="bid" config={config}/>
             </div>
             <div style={{ width: '50%'}}>
-                <BookSide symbol={symbol} data={asks} side="ask" />
+                <BookSide symbol={symbol} data={asks} side="ask" config={config}/>
             </div>
         </div>
     )

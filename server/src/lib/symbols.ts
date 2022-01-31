@@ -1,65 +1,101 @@
-export const MARKET_MAPPING: any = {
-    'FTX': {
-        'BTC/USD': 'BTC/USD',
-        'ETH/USD': 'ETH/USD',
-        'BNB/USD': 'BNB/USD',
-        'ADA/USD': 'ADA/USD',
-        'XRP/USD': 'XRP/USD',
-        'LUNA/USD': 'LUNA/USD',
-        'DOGE/USD': 'DOGE/USD',
+export const INSTRUMENTS: any = {
+    'BTC/USD': {
+        basePrecision: 6,
+        quotePrecision: 2,
+        mapping: {
+            FTX: 'BTC/USD',
+            Coinbase: 'BTC-USD',
+            Binance: 'BTCBUSD',
+            Kraken: 'XBT/USD'
+        }
     },
-    'Coinbase': {
-        'BTC/USD': 'BTC-USD',
-        'ETH/USD': 'ETH-USD',
-        'BNB/USD': 'BNB-USD',
-        'ADA/USD': 'ADA-USD',
-        'XRP/USD': 'XRP-USD',
-        'LUNA/USD': 'LUNA-USD',
-        'DOGE/USD': 'DOGE-USD',
+    'ETH/USD': {
+        basePrecision: 3,
+        quotePrecision: 2,
+        mapping: {
+            FTX: 'ETH/USD',
+            Coinbase: 'ETH-USD',
+            Binance: 'ETHBUSD',
+            Kraken: 'ETH/USD'
+        }
     },
-    // BUSD is used as USD equivalent
-    'Binance': {
-        'BTC/USD': 'BTCBUSD',
-        'ETH/USD': 'ETHBUSD',
-        'BNB/USD': 'BNBBUSD',
-        'ADA/USD': 'ADABUSD',
-        'XRP/USD': 'XRPBUSD',
-        'LUNA/USD': 'LUNABUSD',
-        'DOGE/USD': 'DOGEBUSD',
+    'BNB/USD': {
+        basePrecision: 2,
+        quotePrecision: 3,
+        mapping: {
+            FTX: 'BNB/USD',
+            Coinbase: 'BNB-USD',
+            Binance: 'BNBBUSD',
+            Kraken: 'BNB/USD'
+        }
     },
-    'Kraken': {
-        'BTC/USD': 'XBT/USD',
-        'ETH/USD': 'ETH/USD',
-        'BNB/USD': 'BNB/USD',
-        'ADA/USD': 'ADA/USD',
-        'XRP/USD': 'XRP/USD',
-        'LUNA/USD': 'LUNA/USD',
-        'DOGE/USD': 'XDG/USD',
+    'ADA/USD': {
+        basePrecision: 2,
+        quotePrecision: 4,
+        mapping: {
+            FTX: 'ADA/USD',
+            Coinbase: 'ADA-USD',
+            Binance: 'ADABUSD',
+            Kraken: 'ADA/USD'
+        }
+    },
+    'XRP/USD': {
+        basePrecision: 1,
+        quotePrecision: 6,
+        mapping: {
+            FTX: 'XRP/USD',
+            Coinbase: 'XRP-USD',
+            Binance: 'XRPBUSD',
+            Kraken: 'XRP/USD'
+        }
+    },
+    'LUNA/USD': {
+        basePrecision: 2,
+        quotePrecision: 2,
+        mapping: {
+            FTX: 'LUNA/USD',
+            Coinbase: 'LUNA-USD',
+            Binance: 'LUNABUSD',
+            Kraken: 'LUNA/USD'
+        }
+    },
+    'DOGE/USD': {
+        basePrecision: 1,
+        quotePrecision: 7,
+        mapping: {
+            FTX: 'DOGE/USD',
+            Coinbase: 'DOGE-USD',
+            Binance: 'DOGEBUSD',
+            Kraken: 'XDG/USD'
+        }
     }
 }
 
-export const INVERSE_MARKET_MAPPING: any = (() => {
+export const EXCHANGES = ['FTX', 'Coinbase', 'Binance', 'Kraken']
+
+export const INVERSE_INSTRUMENTS: any = (() => {
     const ret: any = {}
-    for(const ex of Object.keys(MARKET_MAPPING)){
-        const original = MARKET_MAPPING[ex]
-        const map: any = {}
-        for(const sym of Object.keys(original)) {
-            map[original[sym]] = sym
+    EXCHANGES.forEach((ex: string) => {
+        ret[ex] = {}
+    })
+    for(const common of Object.keys(INSTRUMENTS)) {
+        for(const e of EXCHANGES) {
+            const exSym = INSTRUMENTS[common].mapping[e]
+            ret[e][exSym] = common
         }
-        ret[ex] = map
     }
     return ret
 })()
 
-export const EXCHANGES = Object.keys(MARKET_MAPPING)
+console.log(INVERSE_INSTRUMENTS)
 
-export const SYMBOLS = [...new Set(EXCHANGES.map((x: string) => Object.keys(MARKET_MAPPING[x])).flat())]
+export const SYMBOLS = Object.keys(INSTRUMENTS)
 
 export function commonToExchangeSymbol(exchange: string, sym: string): string {
-    return MARKET_MAPPING[exchange][sym]
+    return INSTRUMENTS[sym].mapping[exchange]
 }
 
 export function exchangeToCommonSymbol(exchange: string, sym: string): string {
-    return INVERSE_MARKET_MAPPING[exchange][sym]
+    return INVERSE_INSTRUMENTS[exchange][sym]
 }
 

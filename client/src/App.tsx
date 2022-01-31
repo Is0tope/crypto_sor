@@ -18,12 +18,16 @@ function App() {
   const [exchanges,setExchanges] = useState([] as string[])
   const [activeExchanges,setActiveExchanges] = useState([] as string[])
 
+  const [instruments,setInstruments] = useState({})
+
   useEffect(() => {
     const fn = async () => {
       const data = await getSymbolInfo()
+      console.log(data)
       setSymbols(data.symbols)
       setExchanges(data.exchanges)
       setActiveExchanges(data.exchanges)
+      setInstruments(data.instruments)
       if(data.symbols.length > 0) {
         setActiveSymbol(data.symbols[0])
       }
@@ -84,7 +88,7 @@ function App() {
           <Col className="book-col">
           <Card>
             <Card.Body>
-              <OrderBook symbol={activeSymbol}/>
+              <OrderBook symbol={activeSymbol} exchanges={activeExchanges} instruments={instruments}/>
             </Card.Body>
           </Card>
           </Col>

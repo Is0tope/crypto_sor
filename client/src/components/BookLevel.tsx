@@ -1,3 +1,4 @@
+import Badge from 'react-bootstrap/esm/Badge'
 import { EXCHANGE_COLORS } from '../symbology'
 
 export default function BookLevel(props: any) {
@@ -7,22 +8,11 @@ export default function BookLevel(props: any) {
     const side = props.side
     const size: number = data.size
     const price: number = data.price
+    const { basePrecision, quotePrecision } = props.config
     
     const pctSize = 100 * data.runningSize / data.maximumSize
 
     const exchangeColor = EXCHANGE_COLORS[exchange] || ''
-
-    const exchangeBar = (exchange: string) => {
-        const style = {
-            width: `20px`,
-            background: exchangeColor,
-            marginLeft: side === 'bid' ? '0' : `calc(100% - 20px)`
-        }
-        return <div 
-            className="size-bar" 
-            style={style}
-        ></div>
-    }
 
     const sizeBar = (pct: number) => {
         const style = {
@@ -38,20 +28,29 @@ export default function BookLevel(props: any) {
     }
 
     columns.push(
-        <td style={{position: 'relative'}}>
-            {exchangeBar(exchange)}
-            {exchange}
+        <td style={{position: 'relative', textAlign: side === 'bid' ? 'left' : 'right', width:'20%'}}>
+            <Badge 
+                ref={(el: any) => {
+                    if (el) {
+                      el.style.setProperty('background-color', exchangeColor, 'important');
+                    }
+                  }}
+            >{exchange}</Badge>
         </td>
     )
 
     columns.push(
-        <td style={{position: 'relative'}}>
+        <td style={{position: 'relative', width: '60%', textAlign: side === 'bid' ? 'right' : 'left'}}>
             {sizeBar(pctSize)}
-            {size.toLocaleString()}
+            {size.toLocaleString(undefined,{minimumFractionDigits: basePrecision})}
         </td>
     )
 
-    columns.push(<td>{price.toLocaleString()}</td>)
+    columns.push(
+        <td style={{width: '20%', textAlign: side === 'bid' ? 'right' : 'left'}}>
+            {price.toLocaleString(undefined,{minimumFractionDigits: quotePrecision})}
+        </td>
+        )
 
     if(side === 'ask') {
         columns.reverse()
