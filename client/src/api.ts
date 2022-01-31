@@ -16,3 +16,17 @@ export const getBook = async (symbol: string, exchanges?: string[]) => {
     return res.data
 }
 
+export const newOrder = async (symbol: string, side: string, orderQty: number, exchanges?: string[]) => {
+    let url = `${BASE_URL}/api/order`
+    const payload: any = {
+        symbol: symbol,
+        side: side,
+        orderQty: orderQty
+    }
+    if(exchanges) {
+        payload.exchanges = exchanges
+    }
+    const res = await axios.post(url,payload)
+    return res.data
+}
+

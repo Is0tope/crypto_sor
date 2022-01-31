@@ -117,7 +117,7 @@ export class CompositeOrderBook {
             const lastQty = Math.min(remaining,level.size)
             executions.push({
                 exchange: level.exchange,
-                side: level.side,
+                side: side,
                 lastPrice: level.price,
                 lastQty: lastQty
             })

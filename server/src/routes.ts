@@ -3,6 +3,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { SOR } from './app'
 import { Side } from './lib/common'
 import { PriceLevel } from './lib/CompositeOrderBook'
+import logger from './logger'
 
 const symbolsHandler = async (req: FastifyRequest, res: FastifyReply) => {
     return {
@@ -44,7 +45,7 @@ const newOrderHandler = async (req: FastifyRequest, res: FastifyReply) => {
     const side = body.side === 'Buy' ? Side.Buy : Side.Sell
 
     const execs = SOR.newOrder(symbol,side,orderQty)
-
+    logger.info(`${Side[side]} ${symbol} ${orderQty.toLocaleString(undefined,{maximumFractionDigits: 2})}: ${execs.length} fills`)
     res.code(200)
         .header('Content-Type', 'application/json')
         .send(execs)

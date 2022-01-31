@@ -1,3 +1,4 @@
+import { CSSProperties } from 'react'
 import Badge from 'react-bootstrap/esm/Badge'
 import { EXCHANGE_COLORS } from '../symbology'
 
@@ -6,6 +7,7 @@ export default function BookLevel(props: any) {
     const data = props.data
     const exchange: string = data.exchange
     const side = props.side
+    const crossed = props.crossed
     const size: number = data.size
     const price: number = data.price
     const { basePrecision, quotePrecision } = props.config
@@ -28,7 +30,7 @@ export default function BookLevel(props: any) {
     }
 
     columns.push(
-        <td style={{position: 'relative', textAlign: side === 'bid' ? 'left' : 'right', width:'20%'}}>
+        <td key="exchange" style={{position: 'relative', textAlign: side === 'bid' ? 'left' : 'right', width:'20%'}}>
             <Badge 
                 ref={(el: any) => {
                     if (el) {
@@ -40,14 +42,18 @@ export default function BookLevel(props: any) {
     )
 
     columns.push(
-        <td style={{position: 'relative', width: '60%', textAlign: side === 'bid' ? 'right' : 'left'}}>
+        <td key="size" style={{position: 'relative', width: '60%', textAlign: side === 'bid' ? 'right' : 'left'}}>
             {sizeBar(pctSize)}
             {size.toLocaleString(undefined,{minimumFractionDigits: basePrecision})}
         </td>
     )
 
+    const priceStyle: CSSProperties = {width: '20%', textAlign: side === 'bid' ? 'right' : 'left'}
+    if(crossed) {
+        priceStyle.color = 'red'
+    }
     columns.push(
-        <td style={{width: '20%', textAlign: side === 'bid' ? 'right' : 'left'}}>
+        <td key="price" style={priceStyle}>
             {price.toLocaleString(undefined,{minimumFractionDigits: quotePrecision})}
         </td>
         )

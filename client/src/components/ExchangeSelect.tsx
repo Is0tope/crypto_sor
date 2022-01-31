@@ -14,10 +14,10 @@ export function ExchangeSelect(props: any) {
                 return <Button 
                     style={{marginRight: '6px', marginBottom: '4px'}}
                     key={ex}
-                    variant={isEnabled ? "success" : "outline-success"}
+                    variant="outline-secondary"
                     size="lg"
                     onClick={() => onExchangeClicked(ex)}
-                    >{ex}</Button>
+                    >{`${ex} ${isEnabled ? "✅" : "❌"}`}</Button>
             })}
         </div>
     )

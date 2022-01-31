@@ -87,8 +87,6 @@ export const INVERSE_INSTRUMENTS: any = (() => {
     return ret
 })()
 
-console.log(INVERSE_INSTRUMENTS)
-
 export const SYMBOLS = Object.keys(INSTRUMENTS)
 
 export function commonToExchangeSymbol(exchange: string, sym: string): string {

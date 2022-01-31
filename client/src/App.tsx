@@ -10,10 +10,11 @@ import OrderBook from './components/OrderBook'
 import { getSymbolInfo } from './api'
 import { SymbolSelect } from './components/SymbolSelect'
 import { ExchangeSelect } from './components/ExchangeSelect'
+import { OrderForm } from './components/OrderForm'
 
 function App() {
-  const [activeSymbol,setActiveSymbol] = useState('')
   const [symbols,setSymbols] = useState([])
+  const [activeSymbol,setActiveSymbol] = useState('')
 
   const [exchanges,setExchanges] = useState([] as string[])
   const [activeExchanges,setActiveExchanges] = useState([] as string[])
@@ -23,7 +24,6 @@ function App() {
   useEffect(() => {
     const fn = async () => {
       const data = await getSymbolInfo()
-      console.log(data)
       setSymbols(data.symbols)
       setExchanges(data.exchanges)
       setActiveExchanges(data.exchanges)
@@ -63,14 +63,14 @@ function App() {
           <Card>
             <Card.Body>
               <Row className="row-cols-auto">
-                <Col style={{fontSize: '20pt'}}>
+                <Col style={{fontSize: '24pt'}}>
                   Symbol
                 </Col>
                 <Col>
                   <SymbolSelect symbols={symbols} activeSymbol={activeSymbol} onSymbolChange={onActiveSymbolChange}/>
                 </Col>
-                <Col style={{fontSize: '20pt'}}>
-                  Exchange Filter
+                <Col style={{fontSize: '24pt'}}>
+                  Exchanges
                 </Col>
                 <Col>
                   <ExchangeSelect 
@@ -89,6 +89,17 @@ function App() {
           <Card>
             <Card.Body>
               <OrderBook symbol={activeSymbol} exchanges={activeExchanges} instruments={instruments}/>
+              <small><span style={{color: 'red'}}>red</span> price indicates crossed price level.</small>
+            </Card.Body>
+          </Card>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col className="order-col">
+          <Card>
+            <Card.Body>
+              <OrderForm symbol={activeSymbol} />
             </Card.Body>
           </Card>
           </Col>

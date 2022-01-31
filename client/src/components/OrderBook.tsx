@@ -36,13 +36,15 @@ export default function OrderBook(props: any) {
     const [bids,setBids] = useState([])
     const [asks,setAsks] = useState([])
 
+    const bestBid = ((bids[0] || {}) as any).price || Number.NEGATIVE_INFINITY
+    const bestAsk = ((asks[0] || {}) as any).price || Number.POSITIVE_INFINITY
+
     const updateBook = async () => {
         try {
             const {bids,asks} = await getBook(symbol,exchanges)
             addCumulativeSizes(bids,asks)
             setBids(bids)
             setAsks(asks)
-            console.log(bids,asks)
         } catch(e) {
             console.error(e)
             setBids([])
@@ -64,10 +66,10 @@ export default function OrderBook(props: any) {
     return (
         <div className="d-flex flex-row">
             <div style={{ width: '50%'}}>
-                <BookSide symbol={symbol} data={bids} side="bid" config={config}/>
+                <BookSide symbol={symbol} data={bids} side="bid" bestOpposite={bestAsk} config={config}/>
             </div>
             <div style={{ width: '50%'}}>
-                <BookSide symbol={symbol} data={asks} side="ask" config={config}/>
+                <BookSide symbol={symbol} data={asks} side="ask" bestOpposite={bestBid} config={config}/>
             </div>
         </div>
     )
