@@ -1,3 +1,5 @@
+import { EXCHANGE_COLORS } from '../symbology'
+
 export default function BookLevel(props: any) {
     const columns = []
     const data = props.data
@@ -8,10 +10,24 @@ export default function BookLevel(props: any) {
     
     const pctSize = 100 * data.runningSize / data.maximumSize
 
+    const exchangeColor = EXCHANGE_COLORS[exchange] || ''
+
+    const exchangeBar = (exchange: string) => {
+        const style = {
+            width: `20px`,
+            background: exchangeColor,
+            marginLeft: side === 'bid' ? '0' : `calc(100% - 20px)`
+        }
+        return <div 
+            className="size-bar" 
+            style={style}
+        ></div>
+    }
+
     const sizeBar = (pct: number) => {
         const style = {
             width: `${pctSize}%`,
-            background: side === 'ask' ? 'rgba(212, 63, 63, 0.5)' : 'rgba(50, 168, 82, 0.5)',
+            background: side === 'ask' ? 'rgba(212, 63, 63, 0.4)' : 'rgba(50, 168, 82, 0.4)',
             marginLeft: side === 'ask' ? '0' : `${100 - pctSize}%`
         }
 
@@ -21,7 +37,12 @@ export default function BookLevel(props: any) {
         ></div>
     }
 
-    columns.push(<td>{exchange}</td>)
+    columns.push(
+        <td style={{position: 'relative'}}>
+            {exchangeBar(exchange)}
+            {exchange}
+        </td>
+    )
 
     columns.push(
         <td style={{position: 'relative'}}>
