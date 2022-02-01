@@ -5,6 +5,7 @@ import cors from 'fastify-cors'
 
 const PORT = process.env.PORT || 8080
 const VACUUM_INTERVAL = 10_000
+const RECONNECT_INTERVAL = 30 * 60_000
 
 const server = fastify({
     logger: {
@@ -31,3 +32,7 @@ server.listen(PORT, (err, address) => {
 setInterval(() => {
     SOR.vacuum()
 }, VACUUM_INTERVAL)
+
+setInterval(() => {
+    SOR.reconnect()
+}, RECONNECT_INTERVAL)

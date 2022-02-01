@@ -5,56 +5,69 @@ import BinanceFeedHandler from '../feedhandlers/BinanceFeedHandler'
 import CoinbaseFeedHandler from '../feedhandlers/CoinbaseFeedHandler'
 import FTXFeedHandler from '../feedhandlers/FTXFeedHandler'
 import KrakenFeedHandler from '../feedhandlers/KrakenFeedHandler'
+import { OrderBookFeedHandler } from '../feedhandlers/OrderBookFeedHandler'
+import logger from '../logger'
 
 export default class SmartOrderRouter {
+    private supportedExchanges = ['FTX', 'Coinase', 'Binance', 'Kraken']
     private symbols: string[]
-    private ftxHandler: FTXFeedHandler
-    private coinbaseHandler: CoinbaseFeedHandler
-    private binanceHandler: BinanceFeedHandler
-    private krakenHandler: KrakenFeedHandler
-
+    private exchanges: string[]
+    private feedhandlers: Map<string,OrderBookFeedHandler>
     private orderbooks: Map<string,CompositeOrderBook>
 
-    constructor(symbols: string[]) {
+    constructor(symbols: string[], exchanges: string[]) {
         this.symbols = symbols
+        this.exchanges = exchanges
 
-        this.ftxHandler = new FTXFeedHandler(this.symbols)
-        this.coinbaseHandler = new CoinbaseFeedHandler(this.symbols)
-        this.binanceHandler = new BinanceFeedHandler(this.symbols)
-        this.krakenHandler = new KrakenFeedHandler(this.symbols)
+        this.feedhandlers = new Map()
+        this.exchanges.forEach((e: string) => {
+            let fh: OrderBookFeedHandler | null = null
+            switch(e) {
+                case 'FTX':
+                    fh = new FTXFeedHandler(this.symbols)
+                    break
+                case 'Coinbase':
+                    fh = new CoinbaseFeedHandler(this.symbols)
+                    break
+                case 'Binance':
+                    fh = new BinanceFeedHandler(this.symbols)
+                    break
+                case 'Kraken':
+                    fh = new KrakenFeedHandler(this.symbols)
+                    break
+                default:
+                    throw new Error(`${e} is not supported`)
+            }
+            fh.onEvent((e: OrderBookEvent) => {
+                this.routeEventToBook(fh!.getExchange(),e)
+            })
+            this.feedhandlers.set(e,fh)
+        })
 
         this.orderbooks = new Map()
         for(const s of this.symbols) {
             this.orderbooks.set(s,new CompositeOrderBook(s))
         }
-
-        this.ftxHandler.onEvent((e: OrderBookEvent) => {
-            this.routeEventToBook(this.ftxHandler.getExchange(),e)
-        })
-        
-        this.coinbaseHandler.onEvent((e: OrderBookEvent) => {
-            this.routeEventToBook(this.coinbaseHandler.getExchange(),e)
-        })
-
-        this.binanceHandler.onEvent((e: OrderBookEvent) => {
-            this.routeEventToBook(this.binanceHandler.getExchange(),e)
-        })
-
-        this.krakenHandler.onEvent((e: OrderBookEvent) => {
-            this.routeEventToBook(this.krakenHandler.getExchange(),e)
-        })
     }
 
     routeEventToBook(exchange: string, e: OrderBookEvent) {
         this.orderbooks.get(e.symbol)!.processExternalOrderBookEvent(exchange,e)
     }
 
-    newOrder(symbol: string, side: Side, orderQty: number): Execution[] {
-        return this.orderbooks.get(symbol)!.newOrder(side,orderQty)
+    newOrder(symbol: string, side: Side, orderQty: number, exchanges?: string[]): Execution[] {
+        const book = this.orderbooks.get(symbol)!
+        if(exchanges) {
+            return book.newOrder(side,orderQty,exchanges)
+        }
+        return book.newOrder(side,orderQty)
     }
 
     vacuum() {
         this.orderbooks.forEach((book: CompositeOrderBook) => book.vacuum())
+    }
+
+    reconnect() {
+        this.feedhandlers.forEach((fh: OrderBookFeedHandler) => fh.reconnect())
     }
 
     getBids(symbol: string): PriceLevel[] {

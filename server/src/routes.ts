@@ -43,8 +43,10 @@ const newOrderHandler = async (req: FastifyRequest, res: FastifyReply) => {
     const symbol: string = body.symbol
     const orderQty: number = body.orderQty
     const side = body.side === 'Buy' ? Side.Buy : Side.Sell
+    const exchanges: string[] | undefined = body.exchanges
 
-    const execs = SOR.newOrder(symbol,side,orderQty)
+    console.log(body,exchanges)
+    const execs = SOR.newOrder(symbol,side,orderQty,exchanges)
     logger.info(`${Side[side]} ${symbol} ${orderQty.toLocaleString(undefined,{maximumFractionDigits: 2})}: ${execs.length} fills`)
     res.code(200)
         .header('Content-Type', 'application/json')
@@ -85,7 +87,11 @@ export default [
                 properties: {
                     symbol: { type: 'string', enum: SYMBOLS },
                     orderQty: { type: 'number', exclusiveMinimum: 0 },
-                    side: { type: 'string', enum: ['Buy', 'Sell'] }
+                    side: { type: 'string', enum: ['Buy', 'Sell'] },
+                    exchanges: {
+                        type: 'array',
+                        items: { type: 'string' }
+                    }
                 }
             }
         },

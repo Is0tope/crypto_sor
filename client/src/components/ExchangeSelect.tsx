@@ -14,7 +14,7 @@ export function ExchangeSelect(props: any) {
                 return <Button 
                     style={{marginRight: '6px', marginBottom: '4px'}}
                     key={ex}
-                    variant="outline-secondary"
+                    variant="outline-primary"
                     size="lg"
                     onClick={() => onExchangeClicked(ex)}
                     >{`${ex} ${isEnabled ? "✅" : "❌"}`}</Button>

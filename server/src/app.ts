@@ -1,4 +1,4 @@
 import SmartOrderRouter from './lib/SmartOrderRouter'
-import { SYMBOLS } from './lib/symbols'
+import { EXCHANGES, SYMBOLS } from './lib/symbols'
 
-export const SOR = new SmartOrderRouter(SYMBOLS)
+export const SOR = new SmartOrderRouter(SYMBOLS,EXCHANGES)

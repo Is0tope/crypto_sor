@@ -12,6 +12,7 @@ export interface PriceLevel {
 
 export interface Execution {
     exchange: string
+    symbol: string
     side: Side
     lastPrice: number
     lastQty: number
@@ -106,17 +107,21 @@ export class CompositeOrderBook {
         asks.forEach((a: PriceLevel) => this.updateLevel(a.exchange,a.side,a.price,a.size))
     }
 
-    newOrder(side: Side, orderQty: number): Execution[] {
+    newOrder(side: Side, orderQty: number, exchanges?: string[]): Execution[] {
         const queue: PriceLevel[] = side === Side.Buy ? <PriceLevel[]>this.asks.toArray() : <PriceLevel[]>this.bids.toArray()
         let cumQty = 0
         const executions: Execution[] = []
         for(const level of queue) {
             if(level.size === 0) continue
+            if(exchanges) {
+                if(!exchanges.includes(level.exchange)) continue
+            }
             if(cumQty === orderQty) break
             const remaining = orderQty - cumQty
             const lastQty = Math.min(remaining,level.size)
             executions.push({
                 exchange: level.exchange,
+                symbol: this.symbol,
                 side: side,
                 lastPrice: level.price,
                 lastQty: lastQty

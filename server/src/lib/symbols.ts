@@ -29,6 +29,16 @@ export const INSTRUMENTS: any = {
             Kraken: 'BNB/USD'
         }
     },
+    'SOL/USD': {
+        basePrecision: 2,
+        quotePrecision: 4,
+        mapping: {
+            FTX: 'SOL/USD',
+            Coinbase: 'SOL-USD',
+            Binance: 'SOLBUSD',
+            Kraken: 'SOL/USD'
+        }
+    },
     'ADA/USD': {
         basePrecision: 2,
         quotePrecision: 4,

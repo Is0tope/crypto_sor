@@ -99,7 +99,7 @@ function App() {
           <Col className="order-col">
           <Card>
             <Card.Body>
-              <OrderForm symbol={activeSymbol} />
+              <OrderForm symbol={activeSymbol} instruments={instruments} exchanges={activeExchanges}/>
             </Card.Body>
           </Card>
           </Col>

@@ -27,7 +27,7 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
             pair: this.symbols.map((x: string) => commonToExchangeSymbol(this.getExchange(),x)),
             subscription: {
               name: 'book',
-              depth: 100
+              depth: 1000
             }
           }
         this.ws.send(JSON.stringify(payload))

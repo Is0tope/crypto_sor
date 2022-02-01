@@ -17,10 +17,14 @@ export default function BookLevel(props: any) {
     const exchangeColor = EXCHANGE_COLORS[exchange] || ''
 
     const sizeBar = (pct: number) => {
-        const style = {
+        const style: CSSProperties = {
             width: `${pctSize}%`,
             background: side === 'ask' ? 'rgba(212, 63, 63, 0.4)' : 'rgba(50, 168, 82, 0.4)',
-            marginLeft: side === 'ask' ? '0' : `${100 - pctSize}%`
+        }
+        if(side === 'ask') {
+            style.left = 0
+        } else {
+            style.right = 0
         }
 
         return <div 
