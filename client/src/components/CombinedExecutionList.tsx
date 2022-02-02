@@ -1,7 +1,3 @@
-import Card from 'react-bootstrap/esm/Card'
-import Col from 'react-bootstrap/esm/Col'
-import Row from 'react-bootstrap/esm/Row'
-
 function execCard(e: any, config: any, vertical: boolean) {
     return (
         <tr key={`${e.exchange}`} className="execution-row">
