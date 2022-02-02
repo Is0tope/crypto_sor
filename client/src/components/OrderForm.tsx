@@ -35,6 +35,7 @@ export function OrderForm(props: any) {
     const instruments = props.instruments
     const exchanges: string[] = props.exchanges
     const currency = symbol.split('/')[0] || ''
+    const vertical: boolean = props.vertical
 
     // Reset if the symbol changes
     useEffect(() => {
@@ -172,8 +173,8 @@ export function OrderForm(props: any) {
             </Row>
             <Row>
                 <Col>
-                    {execType === ExecDisplayType.Combined && <CombinedExecutionList executions={combined} config={instruments[symbol]} />}
-                    {execType === ExecDisplayType.Individual && <IndividualExecutionList executions={executions} config={instruments[symbol]} />}
+                    {execType === ExecDisplayType.Combined && <CombinedExecutionList executions={combined} config={instruments[symbol]} vertical={vertical} />}
+                    {execType === ExecDisplayType.Individual && <IndividualExecutionList executions={executions} config={instruments[symbol]} vertical={vertical} />}
                 </Col>
             </Row>
         </div>

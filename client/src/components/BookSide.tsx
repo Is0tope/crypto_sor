@@ -12,9 +12,11 @@ export default function BookSide(props: any) {
     const [baseSymbol,quoteSymbol] = symbol.split('/')
     const vertical: boolean = props.vertical
 
-    cols.push(<th key="exchange">Exchange</th>)
-    cols.push(<th key="size">{`Size (${baseSymbol})`}</th>)
-    cols.push(<th key="price">{`Price (${quoteSymbol})`}</th>)
+    const hideHeader = side === 'bid' && vertical
+    const headerStyle = {height: hideHeader ? 0 : undefined, padding: hideHeader ? 0 : undefined}
+    cols.push(<th style={headerStyle} key="exchange">{hideHeader ? '' : 'Exchange'}</th>)
+    cols.push(<th style={headerStyle} key="size">{hideHeader ? '' : `Size (${baseSymbol})`}</th>)
+    cols.push(<th style={headerStyle} key="price">{hideHeader ? '' : `Price (${quoteSymbol})`}</th>)
 
     if(side === 'ask' && !vertical) {
         cols.reverse()
@@ -23,16 +25,14 @@ export default function BookSide(props: any) {
         data.reverse()
     }
 
-    const hideHeader = side === 'bid' && vertical
-
     const generateKey = (exchange: string, symbol: string, price: number): string => {
         return ` ${exchange}|${symbol}|${price}`
     }
 
 
     return (
-        <Table striped bordered hover className={side === 'ask' ? 'vertical-ask-table' :''}>
-            {!hideHeader &&
+        <Table striped bordered hover className={side === 'ask' ? 'vertical-ask-table' :''} style={{width: '100%', tableLayout: 'fixed'}}>
+            {
                 <thead>
                     <tr>
                         {cols}

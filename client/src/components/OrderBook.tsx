@@ -73,7 +73,7 @@ export default function OrderBook(props: any) {
         </div>
     )
     bookSides.push(
-        <div style={{ width: '100%'}} key="asks" className={vertical ? 'vertical-book-separator' :''}>
+        <div style={{ width: '100%'}} key="asks">
             <BookSide symbol={symbol} data={asks} side="ask" bestOpposite={bestBid} config={config} vertical={vertical}/>
         </div>
     )

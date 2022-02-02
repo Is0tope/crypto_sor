@@ -50,7 +50,7 @@ function App() {
   useEffect(() => {
     window.addEventListener('resize', () => setWindowWidth(window.innerWidth))
   },[])
-  const verticalBook = windowWidth < 768
+  const vertical = windowWidth < 768
 
   return (
     <div className="App">
@@ -60,6 +60,7 @@ function App() {
         <Row>
           <Col className="title-col">
             <h1>Crypto SOR</h1>
+            <p>View a consolidated order book for multiple exchanges. For more information, check out the <a href="https://machow.ski" target="_blank">blog post</a> or view the <a href="https://github.com/Is0tope/crypto_sor" target="_blank">soure code</a>.</p>
           </Col>
         </Row>
 
@@ -93,7 +94,7 @@ function App() {
           <Col className="book-col">
           <Card>
             <Card.Body>
-              <OrderBook symbol={activeSymbol} exchanges={activeExchanges} instruments={instruments} vertical={verticalBook}/>
+              <OrderBook symbol={activeSymbol} exchanges={activeExchanges} instruments={instruments} vertical={vertical}/>
               <small><span style={{color: 'red'}}>red</span> price indicates crossed price level.</small>
             </Card.Body>
           </Card>
@@ -104,7 +105,7 @@ function App() {
           <Col className="order-col">
           <Card>
             <Card.Body>
-              <OrderForm symbol={activeSymbol} instruments={instruments} exchanges={activeExchanges}/>
+              <OrderForm symbol={activeSymbol} instruments={instruments} exchanges={activeExchanges} vertical={vertical}/>
             </Card.Body>
           </Card>
           </Col>

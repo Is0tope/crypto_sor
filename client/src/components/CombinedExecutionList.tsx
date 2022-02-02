@@ -2,36 +2,33 @@ import Card from 'react-bootstrap/esm/Card'
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
 
-function execCard(e: any, config: any) {
+function execCard(e: any, config: any, vertical: boolean) {
     return (
-        <Card key={`${e.exchange}`} className="mb-2">
-            <Card.Body>
-                <Row>
-                    <Col style={{display: 'flex', alignItems:'center'}}><img alt={e.exchange} src={`/img/exchanges/${e.exchange}.png`} style={{ height: '22px', marginRight: '6px'}}/>{e.exchange}</Col>
-                    <Col>{e.symbol}</Col>
-                    <Col><strong style={{color: e.side === 'Sell' ? 'rgb(212, 63, 63)' : 'rgb(50, 168, 82)'}}>{e.side}</strong></Col>
-                    <Col>{(e.size as number).toLocaleString(undefined,{maximumFractionDigits: config.basePrecision})}</Col>
-                    <Col>{(e.avgPx as number).toLocaleString(undefined,{maximumFractionDigits: config.quoterecision})}</Col>
-                </Row>
-            </Card.Body>
-        </Card>
+        <tr key={`${e.exchange}`} className="execution-row">
+            <td style={{display: 'flex', alignItems:'center'}}><img alt={e.exchange} src={`/img/exchanges/${e.exchange}.png`} style={{ height: '22px', marginRight: '6px'}}/>{e.exchange}</td>
+            {!vertical && <td>{e.symbol}</td>}
+            <td><strong style={{color: e.side === 'Sell' ? 'rgb(212, 63, 63)' : 'rgb(50, 168, 82)'}}>{e.side}</strong></td>
+            <td>{(e.size as number).toLocaleString(undefined,{maximumFractionDigits: config.basePrecision})}</td>
+            <td>{(e.avgPx as number).toLocaleString(undefined,{maximumFractionDigits: config.quoterecision})}</td>
+        </tr>
     )
 }
 
 export default function CombinedExecutionList(props: any) {
     const executions = props.executions
     const config = props.config
+    const vertical: boolean = props.vertical
 
     return (
-        <div>
-            <Row className="mb-2">
-                <Col><strong>Exchange</strong></Col>
-                <Col><strong>Symbol</strong></Col>
-                <Col><strong>Side</strong></Col>
-                <Col><strong>Size</strong></Col>
-                <Col><strong>Avg. Price</strong></Col>
-            </Row>
-            {executions.map((e: any) => execCard(e,config))}         
-        </div>
+        <table style={{width: '100%', borderSpacing:'0 20px', borderCollapse: 'separate'}}>
+                <tr>
+                    <th><strong>Exchange</strong></th>
+                    {!vertical && <th><strong>Symbol</strong></th>}
+                    <th><strong>Side</strong></th>
+                    <th><strong>Size</strong></th>
+                    <th><strong>Avg. Price</strong></th>
+                </tr>
+                {executions.map((e: any) => execCard(e,config,vertical))}         
+        </table>
     )
 }

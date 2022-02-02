@@ -35,7 +35,7 @@ export default function BookLevel(props: any) {
     }
 
     columns.push(
-        <td key="exchange" style={{position: 'relative', textAlign: side === 'bid' || vertical ? 'left' : 'right', width:'25%'}}>
+        <td key="exchange" style={{position: 'relative', textAlign: side === 'bid' || vertical ? 'left' : 'right', width:'30%'}}>
             <Badge 
                 ref={(el: any) => {
                     if (el) {
@@ -47,7 +47,7 @@ export default function BookLevel(props: any) {
     )
 
     columns.push(
-        <td key="size" style={{position: 'relative', width: '55%', textAlign: side === 'ask' || vertical ? 'left' : 'right'}}>
+        <td key="size" style={{position: 'relative', width: '50%', textAlign: side === 'ask' || vertical ? 'left' : 'right'}}>
             {sizeBar(pctSize)}
             {size.toLocaleString(undefined,{minimumFractionDigits: basePrecision})}
         </td>
