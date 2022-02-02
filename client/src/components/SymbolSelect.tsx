@@ -10,7 +10,7 @@ export function SymbolSelect(props: any) {
     return (
         <Dropdown style={{marginBottom: '4px'}}>
             <Dropdown.Toggle size="lg" variant="outline-primary" style={{display: 'flex', alignItems:'center'}}>
-                {currency && <img src={`/img/icons/${currency}.png`} style={{height: '24px', marginRight: '6px'}}/>}
+                {currency && <img alt={currency} src={`/img/icons/${currency}.png`} style={{height: '24px', marginRight: '6px'}}/>}
                 <span>{activeSymbol}</span>
             </Dropdown.Toggle>
 

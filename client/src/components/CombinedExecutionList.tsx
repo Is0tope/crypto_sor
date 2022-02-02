@@ -7,7 +7,7 @@ function execCard(e: any, config: any) {
         <Card key={`${e.exchange}`} className="mb-2">
             <Card.Body>
                 <Row>
-                    <Col style={{display: 'flex', alignItems:'center'}}><img src={`/img/exchanges/${e.exchange}.png`} style={{ height: '22px', marginRight: '6px'}}/>{e.exchange}</Col>
+                    <Col style={{display: 'flex', alignItems:'center'}}><img alt={e.exchange} src={`/img/exchanges/${e.exchange}.png`} style={{ height: '22px', marginRight: '6px'}}/>{e.exchange}</Col>
                     <Col>{e.symbol}</Col>
                     <Col><strong style={{color: e.side === 'Sell' ? 'rgb(212, 63, 63)' : 'rgb(50, 168, 82)'}}>{e.side}</strong></Col>
                     <Col>{(e.size as number).toLocaleString(undefined,{maximumFractionDigits: config.basePrecision})}</Col>

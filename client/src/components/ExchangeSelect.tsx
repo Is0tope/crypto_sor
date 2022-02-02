@@ -1,5 +1,4 @@
 import { Button } from 'react-bootstrap'
-import Dropdown from 'react-bootstrap/esm/Dropdown'
 
 export function ExchangeSelect(props: any) {
     const exchanges = props.exchanges

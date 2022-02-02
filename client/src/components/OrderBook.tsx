@@ -61,6 +61,7 @@ export default function OrderBook(props: any) {
         updateBook()
         const timer = setInterval(updateBook, BOOK_UPDATE_PERIOD)
         return () => clearInterval(timer)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[symbol,exchanges])
 
     return (
