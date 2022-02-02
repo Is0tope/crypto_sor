@@ -44,3 +44,11 @@ body {
   position: absolute;
   top: 0;
 }
+
+.vertical-ask-table {
+  margin-bottom: 0px !important;
+}
+
+.vertical-book-separator {
+  border-bottom: 2px solid #111111 !important;
+}

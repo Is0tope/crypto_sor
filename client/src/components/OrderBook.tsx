@@ -39,6 +39,8 @@ export default function OrderBook(props: any) {
     const bestBid = ((bids[0] || {}) as any).price || Number.NEGATIVE_INFINITY
     const bestAsk = ((asks[0] || {}) as any).price || Number.POSITIVE_INFINITY
 
+    const vertical = props.vertical
+    
     const updateBook = async () => {
         try {
             const {bids,asks} = await getBook(symbol,exchanges)
@@ -64,14 +66,24 @@ export default function OrderBook(props: any) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[symbol,exchanges])
 
+    const bookSides = []
+    bookSides.push(
+        <div style={{ width: '100%'}} key="bids">
+            <BookSide symbol={symbol} data={bids} side="bid" bestOpposite={bestAsk} config={config} vertical={vertical}/>
+        </div>
+    )
+    bookSides.push(
+        <div style={{ width: '100%'}} key="asks" className={vertical ? 'vertical-book-separator' :''}>
+            <BookSide symbol={symbol} data={asks} side="ask" bestOpposite={bestBid} config={config} vertical={vertical}/>
+        </div>
+    )
+    if(vertical) {
+        bookSides.reverse()
+    }
+
     return (
-        <div className="d-flex flex-row">
-            <div style={{ width: '50%'}}>
-                <BookSide symbol={symbol} data={bids} side="bid" bestOpposite={bestAsk} config={config}/>
-            </div>
-            <div style={{ width: '50%'}}>
-                <BookSide symbol={symbol} data={asks} side="ask" bestOpposite={bestBid} config={config}/>
-            </div>
+        <div className={`d-flex ${vertical ? 'flex-column' : 'flex-row'}`}>
+            {bookSides}
         </div>
     )
 }

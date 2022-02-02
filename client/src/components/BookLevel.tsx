@@ -11,6 +11,7 @@ export default function BookLevel(props: any) {
     const size: number = data.size
     const price: number = data.price
     const { basePrecision, quotePrecision } = props.config
+    const vertical: boolean = props.vertical
     
     const pctSize = 100 * data.runningSize / data.maximumSize
 
@@ -21,7 +22,7 @@ export default function BookLevel(props: any) {
             width: `${pctSize}%`,
             background: side === 'ask' ? 'rgba(212, 63, 63, 0.4)' : 'rgba(50, 168, 82, 0.4)',
         }
-        if(side === 'ask') {
+        if(side === 'ask' || vertical) {
             style.left = 0
         } else {
             style.right = 0
@@ -34,7 +35,7 @@ export default function BookLevel(props: any) {
     }
 
     columns.push(
-        <td key="exchange" style={{position: 'relative', textAlign: side === 'bid' ? 'left' : 'right', width:'20%'}}>
+        <td key="exchange" style={{position: 'relative', textAlign: side === 'bid' || vertical ? 'left' : 'right', width:'25%'}}>
             <Badge 
                 ref={(el: any) => {
                     if (el) {
@@ -46,13 +47,13 @@ export default function BookLevel(props: any) {
     )
 
     columns.push(
-        <td key="size" style={{position: 'relative', width: '60%', textAlign: side === 'bid' ? 'right' : 'left'}}>
+        <td key="size" style={{position: 'relative', width: '55%', textAlign: side === 'ask' || vertical ? 'left' : 'right'}}>
             {sizeBar(pctSize)}
             {size.toLocaleString(undefined,{minimumFractionDigits: basePrecision})}
         </td>
     )
 
-    const priceStyle: CSSProperties = {width: '20%', textAlign: side === 'bid' ? 'right' : 'left'}
+    const priceStyle: CSSProperties = {width: '20%', textAlign: side === 'ask' || vertical ? 'left' : 'right'}
     if(crossed) {
         priceStyle.color = 'red'
     }
@@ -62,7 +63,7 @@ export default function BookLevel(props: any) {
         </td>
         )
 
-    if(side === 'ask') {
+    if(side === 'ask' && !vertical) {
         columns.reverse()
     }
     return (

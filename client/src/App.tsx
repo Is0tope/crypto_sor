@@ -18,6 +18,7 @@ function App() {
   const [activeExchanges,setActiveExchanges] = useState([] as string[])
 
   const [instruments,setInstruments] = useState({})
+  const [windowWidth,setWindowWidth] = useState(window.innerWidth)
 
   useEffect(() => {
     const fn = async () => {
@@ -44,6 +45,12 @@ function App() {
   const onActiveSymbolChange = (s: string) => {
     setActiveSymbol(s)
   }
+
+  // Make order book vertical if viewport is small
+  useEffect(() => {
+    window.addEventListener('resize', () => setWindowWidth(window.innerWidth))
+  },[])
+  const verticalBook = windowWidth < 768
 
   return (
     <div className="App">
@@ -86,7 +93,7 @@ function App() {
           <Col className="book-col">
           <Card>
             <Card.Body>
-              <OrderBook symbol={activeSymbol} exchanges={activeExchanges} instruments={instruments}/>
+              <OrderBook symbol={activeSymbol} exchanges={activeExchanges} instruments={instruments} vertical={verticalBook}/>
               <small><span style={{color: 'red'}}>red</span> price indicates crossed price level.</small>
             </Card.Body>
           </Card>
