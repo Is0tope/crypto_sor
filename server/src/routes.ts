@@ -45,7 +45,6 @@ const newOrderHandler = async (req: FastifyRequest, res: FastifyReply) => {
     const side = body.side === 'Buy' ? Side.Buy : Side.Sell
     const exchanges: string[] | undefined = body.exchanges
 
-    console.log(body,exchanges)
     const execs = SOR.newOrder(symbol,side,orderQty,exchanges)
     logger.info(`${Side[side]} ${symbol} ${orderQty.toLocaleString(undefined,{maximumFractionDigits: 2})}: ${execs.length} fills`)
     res.code(200)

@@ -48,11 +48,9 @@ export function OrderForm(props: any) {
             setExecLoadingState(OrderLoadingState.Loading)
             const data = await newOrder(symbol,side,orderQty,exchanges)
             setExecLoadingState(OrderLoadingState.Loaded)
-            console.log(data)
             const combined = combineExecutions(data)
-            console.log(combined)
-            setCombined(combined)
             setExecutions(data)
+            setCombined(combined)
         }
         fn()
     }
