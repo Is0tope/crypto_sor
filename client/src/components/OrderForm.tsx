@@ -42,7 +42,7 @@ export function OrderForm(props: any) {
         setExecutions([])
         setExecLoadingState(OrderLoadingState.NotLoaded)
         setOrderQty(1)
-    },[symbol])
+    },[symbol,exchanges])
 
     const sendNewOrder = () => {
         const fn = async () => {
@@ -138,6 +138,7 @@ export function OrderForm(props: any) {
                             placeholder="Order Quantity eg. 100"
                             onChange={updateOrderQty}
                             value={orderQty}
+                            type="number"
                         />
                         <InputGroup.Text>{currency}</InputGroup.Text>
                     </InputGroup>

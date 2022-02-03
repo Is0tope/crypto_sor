@@ -5,7 +5,7 @@ function execCard(e: any, config: any, vertical: boolean) {
             {!vertical && <td>{e.symbol}</td>}
             <td><strong style={{color: e.side === 'Sell' ? 'rgb(212, 63, 63)' : 'rgb(50, 168, 82)'}}>{e.side}</strong></td>
             <td>{(e.size as number).toLocaleString(undefined,{maximumFractionDigits: config.basePrecision})}</td>
-            <td>{(e.avgPx as number).toLocaleString(undefined,{maximumFractionDigits: config.quoterecision})}</td>
+            <td>{(e.avgPx as number).toLocaleString(undefined,{maximumFractionDigits: config.quotePrecision})}</td>
         </tr>
     )
 }

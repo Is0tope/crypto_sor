@@ -11,7 +11,7 @@ function execCard(e: any, config: any, vertical: boolean) {
             {!vertical && <td>{e.symbol}</td>}
             <td><strong style={{color: side === 'Sell' ? 'rgb(212, 63, 63)' : 'rgb(50, 168, 82)'}}>{side}</strong></td>
             <td>{(e.lastQty as number).toLocaleString(undefined,{maximumFractionDigits: config.basePrecision})}</td>
-            <td>{(e.lastPrice as number).toLocaleString(undefined,{maximumFractionDigits: config.quoterecision})}</td>
+            <td>{(e.lastPrice as number).toLocaleString(undefined,{maximumFractionDigits: config.quotePrecision})}</td>
         </tr>
     )
 }
