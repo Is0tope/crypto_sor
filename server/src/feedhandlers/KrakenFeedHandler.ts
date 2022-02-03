@@ -54,6 +54,7 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
             this.publish(translatedEvent)
         } else {
             const dataList = msg.slice(1,-2)
+            if(dataList.length > 1) { console.log(dataList) }
             for(const data of dataList){
                 const bids = 'b' in data ? data.b.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]) : []
                 const asks = 'a' in data ? data.a.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]) : []

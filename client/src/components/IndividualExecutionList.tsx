@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Button from 'react-bootstrap/esm/Button'
+import Card from 'react-bootstrap/esm/Card'
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
 

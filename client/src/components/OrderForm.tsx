@@ -47,6 +47,7 @@ export function OrderForm(props: any) {
     const sendNewOrder = () => {
         const fn = async () => {
             setExecLoadingState(OrderLoadingState.Loading)
+            setExecutions([])
             const data = await newOrder(symbol,side,orderQty,exchanges)
             setExecLoadingState(OrderLoadingState.Loaded)
             const combined = combineExecutions(data)
@@ -175,6 +176,11 @@ export function OrderForm(props: any) {
                 <Col>
                     {execType === ExecDisplayType.Combined && <CombinedExecutionList executions={combined} config={instruments[symbol]} vertical={vertical} />}
                     {execType === ExecDisplayType.Individual && <IndividualExecutionList executions={executions} config={instruments[symbol]} vertical={vertical} />}
+                </Col>
+            </Row>
+            <Row>
+                <Col style={{textAlign: 'center'}}>
+                    {execLoadingState === OrderLoadingState.Loading ? 'Loading...' : ''}
                 </Col>
             </Row>
         </div>

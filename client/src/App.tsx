@@ -60,7 +60,7 @@ function App() {
         <Row>
           <Col className="title-col">
             <h1>Crypto SOR</h1>
-            <p>View a consolidated order book for multiple exchanges. For more information, check out the <a href="https://machow.ski" rel="noreferrer" target="_blank">blog post</a> or view the <a href="https://github.com/Is0tope/crypto_sor" rel="noreferrer" target="_blank">soure code</a>.</p>
+            <p>A consolidated order book and simulated Smart Order Router for multiple exchanges. For more information, check out the <a href="https://machow.ski" rel="noreferrer" target="_blank">blog post</a> or view the <a href="https://github.com/Is0tope/crypto_sor" rel="noreferrer" target="_blank">soure code</a>.</p>
           </Col>
         </Row>
 
