@@ -1,6 +1,6 @@
+import { Event } from 'reconnecting-websocket'
+import { MessageEvent } from 'ws'
 import { OrderBookAction, OrderBookEvent } from '.'
-import ReconnectingWebSocket, { Event } from 'reconnecting-websocket'
-import WebSocket, { MessageEvent } from 'ws';
 import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../lib/symbols'
 import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 

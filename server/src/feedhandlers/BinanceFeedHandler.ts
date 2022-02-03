@@ -1,10 +1,10 @@
-import { OrderBookAction, OrderBookEvent } from '.'
-import { Event } from 'reconnecting-websocket'
-import { MessageEvent } from 'ws';
-import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../lib/symbols'
-import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 import axios from 'axios'
+import { Event } from 'reconnecting-websocket'
+import { MessageEvent } from 'ws'
+import { OrderBookAction, OrderBookEvent } from '.'
+import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../lib/symbols'
 import logger from '../logger'
+import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 
 export default class BinanceFeedHandler extends OrderBookFeedHandler{
     private symbols: string[]

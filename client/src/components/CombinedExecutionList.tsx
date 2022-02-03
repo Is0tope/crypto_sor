@@ -17,14 +17,18 @@ export default function CombinedExecutionList(props: any) {
 
     return (
         <table style={{width: '100%', borderSpacing:'0 20px', borderCollapse: 'separate'}}>
-                <tr>
-                    <th><strong>Exchange</strong></th>
-                    {!vertical && <th><strong>Symbol</strong></th>}
-                    <th><strong>Side</strong></th>
-                    <th><strong>Size</strong></th>
-                    <th><strong>Avg. Price</strong></th>
-                </tr>
-                {executions.map((e: any) => execCard(e,config,vertical))}         
+                <thead>
+                    <tr>
+                        <th><strong>Exchange</strong></th>
+                        {!vertical && <th><strong>Symbol</strong></th>}
+                        <th><strong>Side</strong></th>
+                        <th><strong>Size</strong></th>
+                        <th><strong>Avg. Price</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {executions.map((e: any) => execCard(e,config,vertical))}         
+                </tbody>
         </table>
     )
 }

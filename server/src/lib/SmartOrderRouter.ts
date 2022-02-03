@@ -7,6 +7,7 @@ import FTXFeedHandler from '../feedhandlers/FTXFeedHandler'
 import KrakenFeedHandler from '../feedhandlers/KrakenFeedHandler'
 import { OrderBookFeedHandler } from '../feedhandlers/OrderBookFeedHandler'
 import logger from '../logger'
+import OKXFeedHandler from '../feedhandlers/OKXFeedHandler'
 
 export default class SmartOrderRouter {
     private supportedExchanges = ['FTX', 'Coinase', 'Binance', 'Kraken']
@@ -34,6 +35,9 @@ export default class SmartOrderRouter {
                     break
                 case 'Kraken':
                     fh = new KrakenFeedHandler(this.symbols)
+                    break
+                case 'OKX':
+                    fh = new OKXFeedHandler(this.symbols)
                     break
                 default:
                     throw new Error(`${e} is not supported`)

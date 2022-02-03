@@ -29,14 +29,18 @@ export default function IndividualExecutionList(props: any) {
     return (
         <div>
             <table style={{width: '100%', borderSpacing:'0 20px', borderCollapse: 'separate'}}>
-                <tr>
-                    <th><strong>Exchange</strong></th>
-                    {!vertical && <th><strong>Symbol</strong></th>}
-                    <th><strong>Side</strong></th>
-                    <th><strong>Size</strong></th>
-                    <th><strong>Avg. Price</strong></th>
-                </tr>
-                {executions.slice(0,limit).map((e: any) => execCard(e,config,vertical))}
+                <thead>
+                    <tr>
+                        <th><strong>Exchange</strong></th>
+                        {!vertical && <th><strong>Symbol</strong></th>}
+                        <th><strong>Side</strong></th>
+                        <th><strong>Size</strong></th>
+                        <th><strong>Avg. Price</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {executions.slice(0,limit).map((e: any) => execCard(e,config,vertical))}
+                </tbody>
             </table>
             <Row className="mt-3">
                 {remaining > 0 && 

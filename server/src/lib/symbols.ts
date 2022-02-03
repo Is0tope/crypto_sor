@@ -6,7 +6,8 @@ export const INSTRUMENTS: any = {
             FTX: 'BTC/USD',
             Coinbase: 'BTC-USD',
             Binance: 'BTCBUSD',
-            Kraken: 'XBT/USD'
+            Kraken: 'XBT/USD',
+            OKX: 'BTC-USDC'
         }
     },
     'ETH/USD': {
@@ -16,7 +17,8 @@ export const INSTRUMENTS: any = {
             FTX: 'ETH/USD',
             Coinbase: 'ETH-USD',
             Binance: 'ETHBUSD',
-            Kraken: 'ETH/USD'
+            Kraken: 'ETH/USD',
+            OKX: 'ETH-USDC'
         }
     },
     'BNB/USD': {
@@ -26,7 +28,8 @@ export const INSTRUMENTS: any = {
             FTX: 'BNB/USD',
             Coinbase: 'BNB-USD',
             Binance: 'BNBBUSD',
-            Kraken: 'BNB/USD'
+            Kraken: 'BNB/USD',
+            OKX: 'BNB-USDC'
         }
     },
     'SOL/USD': {
@@ -36,7 +39,8 @@ export const INSTRUMENTS: any = {
             FTX: 'SOL/USD',
             Coinbase: 'SOL-USD',
             Binance: 'SOLBUSD',
-            Kraken: 'SOL/USD'
+            Kraken: 'SOL/USD',
+            OKX: 'SOL-USDC'
         }
     },
     'ADA/USD': {
@@ -46,7 +50,8 @@ export const INSTRUMENTS: any = {
             FTX: 'ADA/USD',
             Coinbase: 'ADA-USD',
             Binance: 'ADABUSD',
-            Kraken: 'ADA/USD'
+            Kraken: 'ADA/USD',
+            OKX: 'ADA-USDC'
         }
     },
     'XRP/USD': {
@@ -56,7 +61,8 @@ export const INSTRUMENTS: any = {
             FTX: 'XRP/USD',
             Coinbase: 'XRP-USD',
             Binance: 'XRPBUSD',
-            Kraken: 'XRP/USD'
+            Kraken: 'XRP/USD',
+            OKX: 'XRP-USDC'
         }
     },
     'LUNA/USD': {
@@ -66,7 +72,8 @@ export const INSTRUMENTS: any = {
             FTX: 'LUNA/USD',
             Coinbase: 'LUNA-USD',
             Binance: 'LUNABUSD',
-            Kraken: 'LUNA/USD'
+            Kraken: 'LUNA/USD',
+            OKX: 'LUNA-USDC'
         }
     },
     'DOGE/USD': {
@@ -76,12 +83,13 @@ export const INSTRUMENTS: any = {
             FTX: 'DOGE/USD',
             Coinbase: 'DOGE-USD',
             Binance: 'DOGEBUSD',
-            Kraken: 'XDG/USD'
+            Kraken: 'XDG/USD',
+            OKX: 'DOGE-USDC'
         }
     }
 }
 
-export const EXCHANGES = ['FTX', 'Coinbase', 'Binance', 'Kraken']
+export const EXCHANGES = ['FTX', 'Coinbase', 'Binance', 'Kraken','OKX']
 
 export const INVERSE_INSTRUMENTS: any = (() => {
     const ret: any = {}
