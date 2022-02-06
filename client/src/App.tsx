@@ -54,8 +54,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <div className="body-header"></div>
-      <div className="body-header-line"></div> */}
       <Container className="offset-container">
         <Row>
           <Col className="title-col">

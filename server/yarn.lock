@@ -1148,6 +1148,21 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
+"@mgcrea/fastify-request-logger@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@mgcrea/fastify-request-logger/-/fastify-request-logger-0.5.2.tgz#80eb80574a91dc7ed864ac214eb84a525b37d983"
+  integrity sha512-gvstSR5YmuU1AjFQlrxyWZyb6co+YmYkyWTn7khoH51a6F17EfBCi2kgUATOR9cLUGuZLXQAywuQ1RKVIK3GhA==
+  dependencies:
+    chalk "^4.1.0"
+    fastify-plugin "^3.0.0"
+
+"@mgcrea/pino-pretty-compact@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@mgcrea/pino-pretty-compact/-/pino-pretty-compact-0.5.0.tgz#885b8852fba809990c43c4f83e0cdc99c500bf3c"
+  integrity sha512-6TDancturru6fY6UuxeDflfOXjGI5172dMlDFthOZ8F5FC3s9fgmylgeED8nxrax/xEwwEvX/X20xKfj70m+GA==
+  dependencies:
+    chalk "^4.1.0"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"

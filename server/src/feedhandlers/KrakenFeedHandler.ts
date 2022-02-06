@@ -6,7 +6,6 @@ import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 
 export default class KrakenFeedHandler extends OrderBookFeedHandler{
     private symbols: string[]
-    private counter = 0
 
     constructor(symbols: string[]) {
         super('Kraken','wss://ws.kraken.com')
@@ -31,7 +30,6 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
             }
           }
         this.ws.send(JSON.stringify(payload))
-        this.counter = 0
     }
 
     translateAndPublishEvent(event: MessageEvent) {
@@ -40,8 +38,7 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
 
         const symbol = exchangeToCommonSymbol(this.getExchange(),msg[msg.length-1])
 
-        // First message is the State Of World, others are updates
-        if(this.counter === 0 ) {
+        if('as' in msg[1] || 'bs' in msg[1]) {
             const data = msg[1]
             const bids = data.bs.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])])
             const asks = data.as.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])])
@@ -66,7 +63,5 @@ export default class KrakenFeedHandler extends OrderBookFeedHandler{
                 this.publish(translatedEvent)
             }
         }
-
-        this.counter++
     }
 }
