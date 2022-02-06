@@ -88,7 +88,12 @@ export function OrderForm(props: any) {
             combined[k].avgPx = el.cost / el.size
             combined[k].side = side
         }
-        return Object.keys(combined).map((k: string) => combined[k])
+        // Sort by average price
+        const ret = Object.keys(combined).map((k: string) => combined[k])
+        ret.sort((a: any, b: any) => {
+            return side === 'Buy' ? a.avgPx - b.avgPx : b.avgPx - a.avgPx
+        })
+        return ret
     }
 
     const executionSummary = (execs: any[]) => {
@@ -171,6 +176,9 @@ export function OrderForm(props: any) {
             <Row>
                 <Col>
                     {execLoadingState === OrderLoadingState.Loaded && <ExecutionSummary  side={summary.side} size={summary.size} avgPx={summary.avgPx} symbol={symbol} config={instruments[symbol]} />}
+                    <div style={{textAlign: 'center'}}>
+                        {execLoadingState === OrderLoadingState.Loaded && <small style={{color: 'red'}}>Some exchanges only provide a limited number of price levels, so liquidity may not be fully representative for large orders.</small>}
+                    </div>
                 </Col>
             </Row>
             <Row>

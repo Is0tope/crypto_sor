@@ -52,7 +52,7 @@ export default class BinanceFeedHandler extends OrderBookFeedHandler{
         setTimeout(async () => {
             for(const s of this.symbols) {
                 const exchSym = commonToExchangeSymbol(this.getExchange(),s)
-                const response = await axios.get(`https://api.binance.com/api/v3/depth?symbol=${exchSym}&limit=1000`)
+                const response = await axios.get(`https://api.binance.com/api/v3/depth?symbol=${exchSym}&limit=5000`)
                 const data = response.data
 
                 const partial: OrderBookEvent = {
@@ -95,14 +95,6 @@ export default class BinanceFeedHandler extends OrderBookFeedHandler{
         } else {
             this.msgBuffer.get(symbol)!.push(data)
         }
-    }
-
-    subscribe(symbol: string) {
-        this.ws.send(JSON.stringify({
-            op: 'subscribe',
-            channel: 'orderbook',
-            market: commonToExchangeSymbol(this.getExchange(),symbol)
-        }))
     }
 
     translateAndPublishEvent(event: MessageEvent) {
