@@ -1,6 +1,8 @@
 # crypto_sor
 Example consolidated order book and simulated **Smart Order Router** (SOR) for crypto markets. This application is a companion to the [associated blog post](https://machow.ski/posts/consolidated_order_books_and_smart_order_routers/) which is recommended reading to understand what it does.
 
+Check out [cryptosor.info](https://cryptosor.info) to see it live.
+
 *This application is not production ready, and should not be used for trading. It is for educational purposes only, and the author accepts no responsibility for any losses incurred.*
 
 ## Overview
