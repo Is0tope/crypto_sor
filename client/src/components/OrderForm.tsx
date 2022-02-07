@@ -28,7 +28,6 @@ export function OrderForm(props: any) {
     const [orderQty, setOrderQty] = useState(1)
     const [execType,setExecType] = useState(ExecDisplayType.Combined)
     const [executions, setExecutions] = useState([] as any[])
-    const [combined, setCombined] = useState([] as any[])
     const [execLoadingState, setExecLoadingState] = useState(OrderLoadingState.NotLoaded)
 
     const symbol = props.symbol
@@ -42,7 +41,12 @@ export function OrderForm(props: any) {
         setExecutions([])
         setExecLoadingState(OrderLoadingState.NotLoaded)
         setOrderQty(1)
-    },[symbol,exchanges])
+    },[symbol])
+    // Don't reset the orderQty if just exchanges changed
+    useEffect(() => {
+        setExecutions([])
+        setExecLoadingState(OrderLoadingState.NotLoaded)
+    },[exchanges])
 
     const sendNewOrder = () => {
         const fn = async () => {
@@ -50,50 +54,13 @@ export function OrderForm(props: any) {
             setExecutions([])
             const data = await newOrder(symbol,side,orderQty,exchanges)
             setExecLoadingState(OrderLoadingState.Loaded)
-            const combined = combineExecutions(data)
             setExecutions(data)
-            setCombined(combined)
         }
         fn()
     }
 
     const updateOrderQty = (e: any) => {
         setOrderQty(e.target.value)
-    }
-
-    const combineExecutions = (execs: any[]): any[] => {
-        if(execs.length === 0) return []
-        const combined: any = {}
-        let side = ''
-        for(const e of execs) {
-            const exchange: string = e.exchange
-            const size: number = e.lastQty
-            const price: number = e.lastPrice
-            const symbol: string = e.symbol
-            side = e.side === 0 ? 'Buy' : 'Sell'
-            if(!Object.keys(combined).includes(exchange)){
-                combined[exchange] = {
-                    exchange: exchange,
-                    symbol: symbol,
-                    size: size,
-                    cost: size * price
-                }
-            } else {
-                combined[exchange].size += size
-                combined[exchange].cost += size * price
-            }
-        }
-        for(const k of Object.keys(combined)) {
-            const el = combined[k] as any
-            combined[k].avgPx = el.cost / el.size
-            combined[k].side = side
-        }
-        // Sort by average price
-        const ret = Object.keys(combined).map((k: string) => combined[k])
-        ret.sort((a: any, b: any) => {
-            return side === 'Buy' ? a.avgPx - b.avgPx : b.avgPx - a.avgPx
-        })
-        return ret
     }
 
     const executionSummary = (execs: any[]) => {
@@ -183,7 +150,7 @@ export function OrderForm(props: any) {
             </Row>
             <Row>
                 <Col>
-                    {execType === ExecDisplayType.Combined && <CombinedExecutionList executions={combined} config={instruments[symbol]} vertical={vertical} />}
+                    {execType === ExecDisplayType.Combined && <CombinedExecutionList executions={executions} config={instruments[symbol]} vertical={vertical} />}
                     {execType === ExecDisplayType.Individual && <IndividualExecutionList executions={executions} config={instruments[symbol]} vertical={vertical} />}
                 </Col>
             </Row>
