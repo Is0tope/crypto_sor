@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { CSSProperties, useState } from 'react'
 import Button from 'react-bootstrap/esm/Button'
 import Col from 'react-bootstrap/esm/Col'
 import Row from 'react-bootstrap/esm/Row'
@@ -25,9 +25,19 @@ export default function IndividualExecutionList(props: any) {
     const vertical: boolean = props.vertical || false
 
     const remaining = executions.length - limit
+
+    const tableStyle: CSSProperties = {
+        width: '100%',
+        borderSpacing:'0 20px',
+        borderCollapse: 'separate'
+    }
+    if(vertical){
+        tableStyle.fontSize = '10pt'
+    }
+
     return (
         <div>
-            <table style={{width: '100%', borderSpacing:'0 20px', borderCollapse: 'separate'}}>
+            <table style={tableStyle}>
                 <thead>
                     <tr>
                         <th><strong>Exchange</strong></th>

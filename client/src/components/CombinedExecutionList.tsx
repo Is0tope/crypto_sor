@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react'
+
 const combineExecutions = (execs: any[]): any[] => {
     if(execs.length === 0) return []
     const combined: any = {}
@@ -30,7 +32,6 @@ const combineExecutions = (execs: any[]): any[] => {
         combined[k].pctImpact = 100*((el.worstPrice/el.initPrice) - 1)
         combined[k].side = side
     }
-    console.log(combined)
     // Sort by average price
     const ret = Object.keys(combined).map((k: string) => combined[k])
     ret.sort((a: any, b: any) => {
@@ -59,8 +60,16 @@ export default function CombinedExecutionList(props: any) {
 
     const combined = combineExecutions(executions)
 
+    const tableStyle: CSSProperties = {
+        width: '100%',
+        borderSpacing:'0 20px',
+        borderCollapse: 'separate'
+    }
+    if(vertical){
+        tableStyle.fontSize = '10pt'
+    }
     return (
-        <table style={{width: '100%', borderSpacing:'0 20px', borderCollapse: 'separate'}}>
+        <table style={tableStyle}>
                 <thead>
                     <tr>
                         <th><strong>Exchange</strong></th>
