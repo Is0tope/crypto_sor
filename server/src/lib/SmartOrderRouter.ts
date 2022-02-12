@@ -10,7 +10,6 @@ import logger from '../logger'
 import OKXFeedHandler from '../feedhandlers/OKXFeedHandler'
 
 export default class SmartOrderRouter {
-    private supportedExchanges = ['FTX', 'Coinase', 'Binance', 'Kraken']
     private symbols: string[]
     private exchanges: string[]
     private feedhandlers: Map<string,OrderBookFeedHandler>

@@ -25,13 +25,8 @@ export default function BookSide(props: any) {
         data.reverse()
     }
 
-    const generateKey = (exchange: string, symbol: string, price: number): string => {
-        return ` ${exchange}|${symbol}|${price}`
-    }
-
-
     return (
-        <Table striped bordered hover className={side === 'ask' ? 'vertical-ask-table' :''} style={{width: '100%', tableLayout: 'fixed'}}>
+        <Table striped bordered hover className={side === 'ask' ? 'vertical-ask-table' :''} style={{width: '100%', tableLayout: 'fixed', marginBottom: 0}}>
             {
                 <thead>
                     <tr>
@@ -40,8 +35,8 @@ export default function BookSide(props: any) {
                 </thead>
             }
             <tbody>
-                {data.map((level: any) => <BookLevel 
-                    key={generateKey(level.exchange,symbol,level.price)}
+                {data.map((level: any, idx: number) => <BookLevel 
+                    key={idx}
                     side={props.side}
                     data={level}
                     crossed={side === 'bid' ? level.price >= bestOpposite : level.price <= bestOpposite}

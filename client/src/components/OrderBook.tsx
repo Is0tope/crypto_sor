@@ -82,7 +82,7 @@ export default function OrderBook(props: any) {
     }
 
     return (
-        <div className={`d-flex ${vertical ? 'flex-column' : 'flex-row'}`}>
+        <div className={`d-flex ${vertical ? 'flex-column' : 'flex-row'}`} style={{marginBottom: '1rem'}}>
             {bookSides}
         </div>
     )
