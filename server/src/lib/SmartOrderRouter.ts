@@ -40,7 +40,7 @@ export default class SmartOrderRouter {
             }
             if(e === 'Kraken'){
                 this.feedhandlers.push(new KrakenFeedHandler(spotSyms))
-                this.feedhandlers.push(new KrakenFuturesFeedHandler(perpSyms))
+                // this.feedhandlers.push(new KrakenFuturesFeedHandler(perpSyms))
                 return
             }
             if(e === 'OKX'){

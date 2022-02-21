@@ -12,7 +12,6 @@ export default function BookLevel(props: any) {
     const price: number = data.price
     const { basePrecision, quotePrecision } = props.config
     const vertical: boolean = props.vertical
-    
     const pctSize = 100 * data.runningSize / data.maximumSize
 
     const exchangeColor = EXCHANGE_COLORS[exchange] || ''

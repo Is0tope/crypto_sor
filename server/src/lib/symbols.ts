@@ -125,8 +125,8 @@ export const INSTRUMENTS: any = {
         type: InstrumentType.Perp,
         mapping: {
             FTX: 'BTC-PERP',
-            Kraken: 'PI_XBTUSD',
-            OKX: 'BTC-USD-SWAP',
+            // Kraken: 'PI_XBTUSD',
+            // OKX: 'BTC-USD-SWAP',
             Mango: 'BTC-PERP'
         }
     },
@@ -138,8 +138,8 @@ export const INSTRUMENTS: any = {
         type: InstrumentType.Perp,
         mapping: {
             FTX: 'ETH-PERP',
-            Kraken: 'PI_ETHUSD',
-            OKX: 'ETH-USD-SWAP',
+            // Kraken: 'PI_ETHUSD',
+            // OKX: 'ETH-USD-SWAP',
             Mango: 'ETH-PERP'
         }
     },
@@ -151,8 +151,8 @@ export const INSTRUMENTS: any = {
         type: InstrumentType.Perp,
         mapping: {
             FTX: 'BNB-PERP',
-            Kraken: 'PI_BNBUSD',
-            OKX: 'BNB-USD-SWAP',
+            // Kraken: 'PI_BNBUSD',
+            // OKX: 'BNB-USD-SWAP',
             Mango: 'BNB-PERP'
         }
     },
@@ -164,8 +164,8 @@ export const INSTRUMENTS: any = {
         type: InstrumentType.Perp,
         mapping: {
             FTX: 'SOL-PERP',
-            Kraken: 'PI_SOLUSD',
-            OKX: 'SOL-USD-SWAP',
+            // Kraken: 'PI_SOLUSD',
+            // OKX: 'SOL-USD-SWAP',
             Mango: 'SOL-PERP'
         }
     },
@@ -177,8 +177,8 @@ export const INSTRUMENTS: any = {
         type: InstrumentType.Perp,
         mapping: {
             FTX: 'LUNA-PERP',
-            Kraken: 'PI_LUNAUSD',
-            OKX: 'LUNA-USD-SWAP',
+            // Kraken: 'PI_LUNAUSD',
+            // OKX: 'LUNA-USD-SWAP',
             Mango: 'LUNA-PERP'
         }
     },
@@ -226,4 +226,21 @@ export function getCommonSymbolsForExchangeAndType(exchange: string, typ?: Instr
 
 export function getCommonSymbolType(s: string): InstrumentType {
     return INSTRUMENTS[s].type
+}
+
+
+// TODO: Get this from exchange
+export const CONTRACT_SIZE: any = {
+    OKX: {
+        'BTC-PERP': 100,
+        'ETH-PERP': 10,
+        'BNB-PERP': 10,
+        'SOL-PERP': 10,
+        'LUNA-PERP': 10,
+    }
+}
+
+export function getContractSize(exchange: string, symbol: string): number {
+    const x = CONTRACT_SIZE[exchange]
+    return x !== undefined ? x[symbol] || 1 : 1
 }

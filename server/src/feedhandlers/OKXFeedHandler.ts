@@ -1,7 +1,7 @@
 import { Event } from 'reconnecting-websocket'
 import { MessageEvent } from 'ws'
 import { OrderBookAction, OrderBookEvent } from '.'
-import { commonToExchangeSymbol, exchangeToCommonSymbol, getCommonSymbolType, InstrumentType } from '../lib/symbols'
+import { commonToExchangeSymbol, exchangeToCommonSymbol, getCommonSymbolType, getContractSize, InstrumentType } from '../lib/symbols'
 import logger from '../logger'
 import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 import pako from 'pako';
@@ -52,11 +52,13 @@ export default class OKXFeedHandler extends OrderBookFeedHandler{
                 logger.error(`Unable to translate ${exSymbol} for ${this.getExchange()}`)
                 continue
             }
+            // TODO: Should be sourced from exchange, and applied more selectively
+            const contractVal = getContractSize(this.getExchange(),symbol)
             const translatedEvent: OrderBookEvent = {
                 action: action === 'partial' ? OrderBookAction.Partial : OrderBookAction.Update,
                 symbol: symbol,
-                bids: data.bids.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])]),
-                asks: data.asks.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])])
+                bids: data.bids.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])/contractVal]),
+                asks: data.asks.map((x: any) => [Number.parseFloat(x[0]),Number.parseFloat(x[1])/contractVal])
             }
             this.publish(translatedEvent)
         }
