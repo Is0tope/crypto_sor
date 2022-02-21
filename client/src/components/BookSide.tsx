@@ -5,7 +5,6 @@ export default function BookSide(props: any) {
     const cols: any[] = []
     const side = props.side
 
-    const symbol = props.symbol
     const data: any[] = props.data.slice()
     const config = props.config
     const bestOpposite = props.bestOpposite
