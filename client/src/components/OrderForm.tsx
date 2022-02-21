@@ -33,7 +33,7 @@ export function OrderForm(props: any) {
     const symbol = props.symbol
     const instruments = props.instruments
     const exchanges: string[] = props.exchanges
-    const currency = symbol.split('/')[0] || ''
+    const currency = instruments[symbol] ? instruments[symbol].baseCurrency : ''
     const vertical: boolean = props.vertical
 
     // Reset if the symbol changes
@@ -142,7 +142,7 @@ export function OrderForm(props: any) {
             <hr/>
             <Row>
                 <Col>
-                    {execLoadingState === OrderLoadingState.Loaded && <ExecutionSummary  side={summary.side} size={summary.size} avgPx={summary.avgPx} symbol={symbol} config={instruments[symbol]} />}
+                    {execLoadingState === OrderLoadingState.Loaded && <ExecutionSummary side={summary.side} size={summary.size} avgPx={summary.avgPx} symbol={symbol} config={instruments[symbol]} />}
                     <div style={{textAlign: 'center'}}>
                         {execLoadingState === OrderLoadingState.Loaded && <small style={{color: 'red'}}>Some exchanges only provide a limited number of price levels, so liquidity may not be fully representative for large orders.</small>}
                     </div>

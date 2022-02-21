@@ -22,7 +22,7 @@ export class OrderBookFeedHandler implements BaseOrderBookFeedHandler{
         this.exchange = exchange
         this.eventHandlers = []
         this.lastMsgReceived = new Date()
-        this.ws = new ReconnectingWebSocket(wsUrl, [],  {
+        this.ws = new ReconnectingWebSocket(wsUrl, [], {
             WebSocket: WebSocket,
             debug: false
         })

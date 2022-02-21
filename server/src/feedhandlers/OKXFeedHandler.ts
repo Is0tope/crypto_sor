@@ -1,7 +1,7 @@
 import { Event } from 'reconnecting-websocket'
 import { MessageEvent } from 'ws'
 import { OrderBookAction, OrderBookEvent } from '.'
-import { commonToExchangeSymbol, exchangeToCommonSymbol } from '../lib/symbols'
+import { commonToExchangeSymbol, exchangeToCommonSymbol, getCommonSymbolType, InstrumentType } from '../lib/symbols'
 import logger from '../logger'
 import { OrderBookFeedHandler } from './OrderBookFeedHandler'
 import pako from 'pako';
@@ -19,7 +19,9 @@ export default class OKXFeedHandler extends OrderBookFeedHandler{
         const payload = {
             op: 'subscribe', 
             args: this.symbols.map((s: string) => {
-                return `spot/depth:${commonToExchangeSymbol(this.getExchange(),s)}`
+                const typ = getCommonSymbolType(s)
+                const tag = typ === InstrumentType.Spot ? 'spot' : 'swap'
+                return `${tag}/depth:${commonToExchangeSymbol(this.getExchange(),s)}`
             })
         }
         this.ws.send(JSON.stringify(payload))

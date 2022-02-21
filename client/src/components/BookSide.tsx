@@ -9,7 +9,8 @@ export default function BookSide(props: any) {
     const data: any[] = props.data.slice()
     const config = props.config
     const bestOpposite = props.bestOpposite
-    const [baseSymbol,quoteSymbol] = symbol.split('/')
+    const baseSymbol = config.baseCurrency || ''
+    const quoteSymbol = config.quoteCurrency || ''
     const vertical: boolean = props.vertical
 
     const hideHeader = side === 'bid' && vertical

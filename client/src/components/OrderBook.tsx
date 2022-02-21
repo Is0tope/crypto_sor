@@ -26,10 +26,12 @@ export default function OrderBook(props: any) {
     const exchanges = props.exchanges
     let config = {}
     if(Object.keys(props.instruments).length !== 0) {
-        const precisions = props.instruments[symbol] || {}
+        const data = props.instruments[symbol] || {}
         config = {
-            basePrecision: precisions.basePrecision || 1,
-            quotePrecision: precisions.quotePrecision || 1
+            basePrecision: data.basePrecision || 1,
+            quotePrecision: data.quotePrecision || 1,
+            baseCurrency: data.baseCurrency || '',
+            quoteCurrency: data.quoteCurrency || ''
         }
     }
 

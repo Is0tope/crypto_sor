@@ -23,10 +23,10 @@ function App() {
   useEffect(() => {
     const fn = async () => {
       const data = await getSymbolInfo()
+      setInstruments(data.instruments)
       setSymbols(data.symbols)
       setExchanges(data.exchanges)
       setActiveExchanges(data.exchanges)
-      setInstruments(data.instruments)
       if(data.symbols.length > 0) {
         setActiveSymbol(data.symbols[0])
       }
@@ -71,7 +71,7 @@ function App() {
                   Symbol
                 </Col>
                 <Col>
-                  <SymbolSelect symbols={symbols} activeSymbol={activeSymbol} onSymbolChange={onActiveSymbolChange}/>
+                  <SymbolSelect symbols={symbols} activeSymbol={activeSymbol} instruments={instruments} onSymbolChange={onActiveSymbolChange}/>
                 </Col>
                 <Col style={{fontSize: '24pt'}}>
                   Exchanges
