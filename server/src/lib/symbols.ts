@@ -185,7 +185,8 @@ export const INSTRUMENTS: any = {
 
 }
 
-export const EXCHANGES = ['FTX', 'Coinbase', 'Binance', 'Kraken', 'OKX', 'Mango']
+// Had to temporarily remove OKX due to staleness issue with their WS feed
+export const EXCHANGES = ['FTX', 'Coinbase', 'Binance', 'Kraken', 'Mango']
 
 export const INVERSE_INSTRUMENTS: any = (() => {
     const ret: any = {}
