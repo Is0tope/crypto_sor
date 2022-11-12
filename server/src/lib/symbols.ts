@@ -186,7 +186,8 @@ export const INSTRUMENTS: any = {
 }
 
 // Had to temporarily remove OKX due to staleness issue with their WS feed
-export const EXCHANGES = ['FTX', 'Coinbase', 'Binance', 'Kraken', 'Mango']
+// Remove Mango & FTX
+export const EXCHANGES = ['Coinbase', 'Binance', 'Kraken']
 
 export const INVERSE_INSTRUMENTS: any = (() => {
     const ret: any = {}
